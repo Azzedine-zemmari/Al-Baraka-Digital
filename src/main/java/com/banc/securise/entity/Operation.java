@@ -3,10 +3,16 @@ package com.banc.securise.entity;
 import com.banc.securise.enums.OperationStatus;
 import com.banc.securise.enums.OperationType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Operation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

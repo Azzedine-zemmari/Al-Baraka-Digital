@@ -1,10 +1,17 @@
 package com.banc.securise.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,6 +20,8 @@ public class Account {
     @Column(unique = true, nullable = false)
     private String accountNumber;
 
+    @Column(nullable = false)
+    @Min(value = 0)
     private Double balance;
 
     @OneToOne(fetch = FetchType.LAZY)
