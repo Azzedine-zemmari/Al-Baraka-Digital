@@ -38,12 +38,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserRegisterDto registerUser(UserRegisterDto userRegisterDto){
             User user = userMapper.userRegisterToUser(userRegisterDto);
-            Optional<User> isUserExists =userRepository.findByEmail(user.getEmail());
+            Optional<User> isUserExists =userRepository.findByEmail(userRegisterDto.getEmail());
             if(isUserExists.isPresent()){
                 throw new RuntimeException("user already exists");
             }
             String hash = passwordEncoder.encode(userRegisterDto.getPassword());
             user.setPassword(hash);
+            user.setActive(false);
+            System.out.println("email : " + user.getEmail() + "isActive : " + user.getActive());
             userRepository.save(user);
             return userMapper.userToDto(user);
     }

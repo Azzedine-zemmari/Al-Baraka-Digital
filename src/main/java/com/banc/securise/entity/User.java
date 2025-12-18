@@ -3,6 +3,7 @@ package com.banc.securise.entity;
 import com.banc.securise.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.bytecode.enhance.spi.EnhancementInfo;
@@ -25,11 +26,12 @@ public class User {
     private String password;
     
     private String fullName;
-    
-    private Role role;
 
-    private Boolean active;
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.ROLE_CLIENT;
 
-    private LocalDateTime created_at;
+    private Boolean active = true;
+
+    private LocalDateTime created_at = LocalDateTime.now();
 
 }

@@ -23,11 +23,12 @@ public class SecurityConfig {
                 .csrf(csrf->csrf.disable())
                 .sessionManagement(sm->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth->
-                        auth.requestMatchers("/auth/login").permitAll()
+                        auth.requestMatchers("/api/v1/auth/register").permitAll()
+                                .requestMatchers("/auth/login").permitAll()
                                 .anyRequest().authenticated()
-                );
+                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
     // expose authentication manager as a bean

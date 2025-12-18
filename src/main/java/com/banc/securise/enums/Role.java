@@ -1,7 +1,7 @@
 package com.banc.securise.enums;
 
 public enum Role {
-    CLIENT,
-    AGENT_BANCAIRE,
-    ADMIN
+    ROLE_CLIENT,
+    ROLE_AGENT_BANCAIRE,
+    ROLE_ADMIN
 }
