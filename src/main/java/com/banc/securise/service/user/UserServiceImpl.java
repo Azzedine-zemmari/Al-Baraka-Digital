@@ -49,7 +49,8 @@ public class UserServiceImpl implements UserService{
             userRepository.save(user);
             return userMapper.userToDto(user);
     }
-    public AuthResponse loginUser(@NotNull UserLoginDto dto){
+    @Override
+    public AuthResponse loginUser(UserLoginDto dto){
         // authentication spring security
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
