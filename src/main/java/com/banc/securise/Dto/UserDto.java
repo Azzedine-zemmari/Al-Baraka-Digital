@@ -15,7 +15,7 @@ public class UserDto {
 
     private Role role;
 
-    private Boolean active;
+    private boolean active;
 
     private LocalDateTime created_at;
 }

@@ -6,6 +6,7 @@ import com.banc.securise.Dto.UserLoginDto;
 import com.banc.securise.Dto.UserRegisterDto;
 import com.banc.securise.entity.Account;
 import com.banc.securise.entity.User;
+import com.banc.securise.enums.Role;
 import com.banc.securise.mapper.UserDtoMapper;
 import com.banc.securise.mapper.UserMapper;
 import com.banc.securise.repository.AccountRepository;
@@ -42,21 +43,29 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserRegisterDto registerUser(UserRegisterDto userRegisterDto){
             User user = userMapper.userRegisterToUser(userRegisterDto);
+
             Optional<User> isUserExists =userRepository.findByEmail(userRegisterDto.getEmail());
             if(isUserExists.isPresent()){
                 throw new RuntimeException("user already exists");
             }
+
             String hash = passwordEncoder.encode(userRegisterDto.getPassword());
             user.setPassword(hash);
-            user.setActive(false);
-            System.out.println("email : " + user.getEmail() + "isActive : " + user.getActive());
+            user.setActive("false");
+            user.setRole(userRegisterDto.getRole() != null ? userRegisterDto.getRole() : Role.ROLE_CLIENT);
+
             userRepository.save(user);
-            Account account = new Account();
-            int random = 1000 + new Random().nextInt(9000);
-            account.setAccountNumber("ACC_"+random);
-            account.setBalance(0.0);
-            account.setOwner(user);
-            accountRepository.save(account);
+
+            if(user.getRole() == Role.ROLE_CLIENT){
+                Account account = new Account();
+                int random = 1000 + new Random().nextInt(9000);
+                account.setAccountNumber("ACC_"+random);
+                account.setBalance(0.0);
+                account.setOwner(user);
+
+                accountRepository.save(account);
+            }
+
             return userMapper.userToDto(user);
     }
     @Override
@@ -86,5 +95,11 @@ public class UserServiceImpl implements UserService{
 
     }
 
-
+    @Override
+    public UserDto activeUser(Integer id){
+        User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found"));
+        user.setActive("true");
+        userRepository.save(user);
+        return userDtoMapper.userToDto(user);
+    }
 }

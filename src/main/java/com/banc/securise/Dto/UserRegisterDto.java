@@ -10,4 +10,6 @@ public class UserRegisterDto {
     private String password;
 
     private String fullName;
+
+    private Role role;
 }
