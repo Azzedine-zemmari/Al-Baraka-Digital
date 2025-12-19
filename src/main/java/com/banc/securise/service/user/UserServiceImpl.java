@@ -4,9 +4,11 @@ import com.banc.securise.Dto.AuthResponse;
 import com.banc.securise.Dto.UserDto;
 import com.banc.securise.Dto.UserLoginDto;
 import com.banc.securise.Dto.UserRegisterDto;
+import com.banc.securise.entity.Account;
 import com.banc.securise.entity.User;
 import com.banc.securise.mapper.UserDtoMapper;
 import com.banc.securise.mapper.UserMapper;
+import com.banc.securise.repository.AccountRepository;
 import com.banc.securise.repository.UserRepository;
 import com.banc.securise.security.JwtService;
 import lombok.AllArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @AllArgsConstructor
@@ -33,6 +36,7 @@ public class UserServiceImpl implements UserService{
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final AccountRepository accountRepository;
 
 
     @Override
@@ -47,6 +51,12 @@ public class UserServiceImpl implements UserService{
             user.setActive(false);
             System.out.println("email : " + user.getEmail() + "isActive : " + user.getActive());
             userRepository.save(user);
+            Account account = new Account();
+            int random = 1000 + new Random().nextInt(9000);
+            account.setAccountNumber("ACC_"+random);
+            account.setBalance(0.0);
+            account.setOwner(user);
+            accountRepository.save(account);
             return userMapper.userToDto(user);
     }
     @Override

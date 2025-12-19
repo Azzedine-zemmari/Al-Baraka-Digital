@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  securise-app:
+    image: azzedine122/securise-app:latest
+    container_name: securise-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://al-bank-mysql:3306/securise
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "7001:8080"
+    networks:
+      - securise_net
+
+networks:
+  securise_net:
+    external: true
+
+    # still dont know the db when i finish that project am gonna use a service for the db so
+    # they can share the same network
+
