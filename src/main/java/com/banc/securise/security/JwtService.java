@@ -1,8 +1,10 @@
 package com.banc.securise.security;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,15 @@ public class JwtService {
         SECRET_KEY = dotenv.get("JWT_SECRET");
     }
     public String generateToken(UserDetails userDetails){
+            String role = userDetails.getAuthorities()
+                .stream()
+                .findFirst()
+                .map(GrantedAuthority::getAuthority)
+                .orElseThrow(()-> new RuntimeException("role not found"));
+
             return Jwts.builder()
                     .subject(userDetails.getUsername())
+                    .claim("role",role)
                     .issuedAt(new Date())
                     .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                     .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
@@ -24,16 +33,29 @@ public class JwtService {
     }
 
     public String extractUsername(String token) {
-        return Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+        return extractAllClaims(token).getSubject();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        return extractUsername(token).equals(userDetails.getUsername());
+
+    public String extractRole(String token){
+        return extractAllClaims(token).get("role",String.class);
+    }
+    public boolean isTokenValid(String token) {
+        try {
+            extractAllClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // helper
+    private Claims extractAllClaims(String token){
+        return Jwts.parser()
+                .setSigningKey(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
 }
