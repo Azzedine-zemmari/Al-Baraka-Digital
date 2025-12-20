@@ -30,4 +30,9 @@ public class DepositeController {
             return ResponseEntity.ok(e.getMessage());
         }
     }
+    @PostMapping(value="/active")
+    public ResponseEntity<String> confirmDeposit(@RequestParam("id") int id){
+        String result = depositService.confirmDeposit(id);
+        return ResponseEntity.ok(result);
+    }
 }
