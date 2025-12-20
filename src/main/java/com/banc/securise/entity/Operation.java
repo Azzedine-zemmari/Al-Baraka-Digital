@@ -21,6 +21,8 @@ public class Operation {
     @Enumerated(EnumType.STRING)
     private OperationType type;
 
+    private Double amount;
+
     @Enumerated(EnumType.STRING)
     private OperationStatus status;
 
