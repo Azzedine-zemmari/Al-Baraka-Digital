@@ -5,6 +5,7 @@ import com.banc.securise.entity.Account;
 import com.banc.securise.entity.Operation;
 import com.banc.securise.entity.User;
 import com.banc.securise.enums.OperationStatus;
+import com.banc.securise.exception.AccountInactiveException;
 import com.banc.securise.mapper.OperationMapper;
 import com.banc.securise.repository.AccountRepository;
 import com.banc.securise.repository.OperationRepository;
@@ -30,6 +31,9 @@ public class DepositServiceImpl implements DepositService{
     public void createDeposit(DepositeDto depositeDto,String email){
         User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalStateException("user not authenticated"));
         Account account = accountRepository.findByOwner(user).orElseThrow(()->new IllegalStateException("user has no account"));
+        if(user.getActive().equals("false")){
+            throw new AccountInactiveException();
+        }
 
         Operation operation = operationMapper.dtoToEntity(depositeDto);
 
@@ -39,6 +43,8 @@ public class DepositServiceImpl implements DepositService{
             operation.setCreatedAt(LocalDateTime.now());
             operation.setExecutedAt(LocalDateTime.now());
             operation.setValidatedAt(LocalDateTime.now());
+            account.setBalance(account.getBalance() + operation.getAmount());
+            accountRepository.save(account);
         }else{
             operation.setStatus(OperationStatus.PENDING);
         }
