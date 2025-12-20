@@ -129,4 +129,17 @@ public class DepositServiceImpl implements DepositService{
 
         return "Operation status or type are not correct";
     }
+
+    @Override
+    public String rejectDeposit(Integer id){
+        Operation op = operationRepository.findById(id).orElseThrow(()-> new RuntimeException("operation not found"));
+        if(op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.DEPOSIT)){
+            op.setStatus(OperationStatus.CANCELED);
+            op.setValidatedAt(LocalDateTime.now());
+            op.setExecutedAt(LocalDateTime.now());
+            operationRepository.save(op);
+            return "Operation canceled";
+        }
+        return "Operation is already canceld or accepted";
+    }
 }

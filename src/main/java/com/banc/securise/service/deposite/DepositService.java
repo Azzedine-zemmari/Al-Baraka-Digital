@@ -9,4 +9,5 @@ import java.io.IOException;
 public interface DepositService {
     void createDeposit(DepositeDto depositeDto, MultipartFile justificatif , String email) throws IOException;
     String confirmDeposit(Integer id);
+    String rejectDeposit(Integer id);
 }
