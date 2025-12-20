@@ -3,6 +3,8 @@ package com.banc.securise.service.deposite;
 
 import com.banc.securise.Dto.DepositeDto;
 
+import java.io.IOException;
+
 public interface DepositService {
-    void createDeposit(DepositeDto depositeDto,String email);
+    void createDeposit(DepositeDto depositeDto,String email) throws IOException;
 }

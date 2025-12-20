@@ -5,6 +5,8 @@ import com.banc.securise.enums.OperationStatus;
 import com.banc.securise.enums.OperationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.boot.servlet.autoconfigure.MultipartAutoConfiguration;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -13,4 +15,5 @@ public class DepositeDto {
     private Integer id;
     private OperationType type;
     private Double amount;
+    private MultipartFile justificatif;
 }
