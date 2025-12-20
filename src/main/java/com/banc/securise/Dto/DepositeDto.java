@@ -15,5 +15,5 @@ public class DepositeDto {
     private Integer id;
     private OperationType type;
     private Double amount;
-    private MultipartFile justificatif;
+//    private MultipartFile justificatif;
 }
