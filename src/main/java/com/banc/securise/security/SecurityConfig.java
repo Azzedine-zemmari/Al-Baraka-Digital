@@ -30,6 +30,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/deposite/active/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/deposite/cancel/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/deposite/**").hasRole("CLIENT")
+                                .requestMatchers("/api/v1/retrait/").hasRole("CLIENT")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
