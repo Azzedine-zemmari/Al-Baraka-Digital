@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/retrait")
@@ -14,10 +15,10 @@ public class RetraitController {
     private RetraitService retraitService;
 
     @PostMapping(value="/")
-    public ResponseEntity<String> Retrait(@RequestBody DepositeDto dto , Authentication authentication){
+    public ResponseEntity<String> Retrait(@RequestPart DepositeDto dto , @RequestPart(value="justificatif" , required = false) MultipartFile justificatif , Authentication authentication){
         try{
             String email = authentication.getName();
-            retraitService.createRetrait(dto,email);
+            retraitService.createRetrait(dto,justificatif,email);
             return ResponseEntity.ok("retrait avec success");
         }catch(Exception e){
             return ResponseEntity.ok(e.getMessage());
