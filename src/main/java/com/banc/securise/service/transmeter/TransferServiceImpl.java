@@ -6,6 +6,7 @@ import com.banc.securise.entity.Document;
 import com.banc.securise.entity.Operation;
 import com.banc.securise.entity.User;
 import com.banc.securise.enums.OperationStatus;
+import com.banc.securise.enums.OperationType;
 import com.banc.securise.exception.AccountInactiveException;
 import com.banc.securise.mapper.TransferMapper;
 import com.banc.securise.repository.AccountRepository;
@@ -61,6 +62,7 @@ public class TransferServiceImpl implements TransferService {
             if(accountSource.getBalance() >= dto.getAmount()){
                 operation.setStatus(OperationStatus.APPROVE);
                 operation.setAccountDestination(accountDestination);
+                operation.setAccountSource(accountSource);
                 operation.setCreatedAt(LocalDateTime.now());
                 operation.setExecutedAt(LocalDateTime.now());
                 operation.setValidatedAt(LocalDateTime.now());
@@ -72,6 +74,7 @@ public class TransferServiceImpl implements TransferService {
         }
         else{
             operation.setAccountDestination(accountDestination);
+            operation.setAccountSource(accountSource);
             operation.setCreatedAt(LocalDateTime.now());
             if(justificatif == null || justificatif.isEmpty()){
                 throw new IllegalArgumentException("justificatif is required for deposit amount above 10,000");
@@ -107,5 +110,24 @@ public class TransferServiceImpl implements TransferService {
             documentRepository.save(document);
         }
         operationRepository.save(operation);
+    }
+    @Override
+    @Transactional
+    public String confirmTransfer(Integer id){
+        Operation op = operationRepository.findById(id).orElseThrow(() -> new RuntimeException("operation not found"));
+        if (op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.TRANSFER)) {
+            op.setStatus(OperationStatus.APPROVE);
+            op.setValidatedAt(LocalDateTime.now());
+            op.setExecutedAt(LocalDateTime.now());
+            operationRepository.save(op);
+            Account accountDestination = op.getAccountDestination();
+            Account accountSource = op.getAccountSource();
+            accountDestination.setBalance(accountDestination.getBalance() + op.getAmount());
+            accountSource.setBalance(accountSource.getBalance() - op.getAmount());
+            accountRepository.save(accountDestination);
+            accountRepository.save(accountSource);
+            return "Operation confirmed";
+        }
+        return "Operation status or type are not correct";
     }
 }

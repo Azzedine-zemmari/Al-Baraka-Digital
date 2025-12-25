@@ -26,4 +26,8 @@ public class TransferController {
             return ResponseEntity.ok(e.getMessage());
         }
     }
-}
+    @PostMapping(value="/active")
+    public ResponseEntity<String> confirmRetrait(@RequestParam("id") int id){
+        String result = transferService.confirmTransfer(id);
+        return ResponseEntity.ok(result);
+    }}

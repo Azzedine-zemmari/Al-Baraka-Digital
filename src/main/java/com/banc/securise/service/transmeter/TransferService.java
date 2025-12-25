@@ -7,5 +7,6 @@ import java.io.IOException;
 
 public interface TransferService {
     void createTransfer(TransferDto dto, MultipartFile justificatif , String email) throws IOException;
+    String confirmTransfer(Integer id);
 
 }
