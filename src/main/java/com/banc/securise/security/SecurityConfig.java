@@ -30,6 +30,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/deposite/active/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/deposite/cancel/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/retrait/active/**").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/retrait/cancel/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/deposite/**").hasRole("CLIENT")
                                 .requestMatchers("/api/v1/retrait/").hasRole("CLIENT")
                                 .requestMatchers("/api/v1/transfer/").hasRole("CLIENT")

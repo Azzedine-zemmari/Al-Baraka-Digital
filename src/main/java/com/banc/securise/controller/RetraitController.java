@@ -29,4 +29,9 @@ public class RetraitController {
         String result = retraitService.confirmRetrait(id);
         return ResponseEntity.ok(result);
     }
+    @PostMapping(value="/cancel")
+    public ResponseEntity<String> cancelDeposit(@RequestParam("id") int id){
+        String result = retraitService.rejectRetrait(id);
+        return ResponseEntity.ok(result);
+    }
 }
