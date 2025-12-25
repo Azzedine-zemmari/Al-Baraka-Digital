@@ -89,9 +89,9 @@ public class UserServiceImpl implements UserService{
         // get user entity
         User user = userRepository.findByEmail(dto.getEmail()).orElseThrow(()-> new RuntimeException("user not found"));
 
-        UserDto userDto = userDtoMapper.userToDto(user);
+//        UserDto userDto = userDtoMapper.userToDto(user);
 
-        return new AuthResponse(token,userDto);
+        return new AuthResponse(token);
 
     }
 

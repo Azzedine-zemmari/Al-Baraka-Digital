@@ -8,4 +8,6 @@ import java.io.IOException;
 
 public interface RetraitService {
     void createRetrait(DepositeDto dto, MultipartFile justificatif,String email) throws IOException;
+    String confirmRetrait(Integer id);
+//    String rejectRetrait(Integer id);
 }

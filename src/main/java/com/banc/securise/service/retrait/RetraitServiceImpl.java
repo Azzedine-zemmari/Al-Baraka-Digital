@@ -7,6 +7,7 @@ import com.banc.securise.entity.Document;
 import com.banc.securise.entity.Operation;
 import com.banc.securise.entity.User;
 import com.banc.securise.enums.OperationStatus;
+import com.banc.securise.enums.OperationType;
 import com.banc.securise.exception.AccountInactiveException;
 import com.banc.securise.mapper.OperationMapper;
 import com.banc.securise.repository.AccountRepository;
@@ -104,5 +105,21 @@ public class RetraitServiceImpl implements RetraitService{
             operationRepository.save(operation);
         }
 
+    }
+    @Override
+    @Transactional
+    public String confirmRetrait(Integer id) {
+        Operation op = operationRepository.findById(id).orElseThrow(() -> new RuntimeException("operation not found"));
+        if (op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.WITHDRAWAL)) {
+            op.setStatus(OperationStatus.APPROVE);
+            op.setValidatedAt(LocalDateTime.now());
+            op.setExecutedAt(LocalDateTime.now());
+            operationRepository.save(op);
+            Account account = op.getAccountDestination();
+            account.setBalance(account.getBalance() - op.getAmount());
+            accountRepository.save(account);
+            return "Operation confirmed";
+        }
+        return "Operation status or type are not correct";
     }
 }

@@ -24,4 +24,9 @@ public class RetraitController {
             return ResponseEntity.ok(e.getMessage());
         }
     }
+    @PostMapping(value="/active")
+    public ResponseEntity<String> confirmRetrait(@RequestParam("id") int id){
+        String result = retraitService.confirmRetrait(id);
+        return ResponseEntity.ok(result);
+    }
 }
