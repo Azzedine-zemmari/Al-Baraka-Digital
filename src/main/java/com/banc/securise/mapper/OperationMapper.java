@@ -7,10 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface OperationMapper {
-    @Mapping(source = "amount", target = "amount")
-    @Mapping(source = "type", target = "type")
     DepositeDto entityToDto(Operation operation);
-    @Mapping(source = "amount", target = "amount")
-    @Mapping(source = "type", target = "type")
     Operation dtoToEntity(DepositeDto depositeDto);
 }

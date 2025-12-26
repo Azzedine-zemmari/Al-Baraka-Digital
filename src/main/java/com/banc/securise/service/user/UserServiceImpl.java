@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -101,5 +102,41 @@ public class UserServiceImpl implements UserService{
         user.setActive("true");
         userRepository.save(user);
         return userDtoMapper.userToDto(user);
+    }
+
+    @Override
+    public List<UserDto> showAllUsers(){
+        return userRepository.findAll()
+                .stream()
+                .map(userDtoMapper::userToDto)
+                .toList();
+    }
+    @Override
+    public UserRegisterDto registerUserByAdmin(UserRegisterDto userRegisterDto){
+        User user = userMapper.userRegisterToUser(userRegisterDto);
+
+        Optional<User> isUserExists = userRepository.findByEmail(userRegisterDto.getEmail());
+        if(isUserExists.isPresent()){
+            throw new RuntimeException("user already exists");
+        }
+
+        String hash = passwordEncoder.encode(userRegisterDto.getPassword());
+        user.setPassword(hash);
+        user.setActive("true");
+        user.setRole(userRegisterDto.getRole() != null ? userRegisterDto.getRole() : Role.ROLE_CLIENT);
+
+        userRepository.save(user);
+
+        if(user.getRole() == Role.ROLE_CLIENT){
+            Account account = new Account();
+            int random = 1000 + new Random().nextInt(9000);
+            account.setAccountNumber("ACC_"+random);
+            account.setBalance(0.0);
+            account.setOwner(user);
+
+            accountRepository.save(account);
+        }
+
+        return userMapper.userToDto(user);
     }
 }
