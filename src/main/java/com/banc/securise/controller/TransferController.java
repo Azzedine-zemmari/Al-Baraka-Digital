@@ -30,4 +30,10 @@ public class TransferController {
     public ResponseEntity<String> confirmRetrait(@RequestParam("id") int id){
         String result = transferService.confirmTransfer(id);
         return ResponseEntity.ok(result);
-    }}
+    }
+    @PostMapping(value="/cancel")
+    public ResponseEntity<String> cancelDeposit(@RequestParam("id") int id){
+        String result = transferService.cancelTransfer(id);
+        return ResponseEntity.ok(result);
+    }
+}

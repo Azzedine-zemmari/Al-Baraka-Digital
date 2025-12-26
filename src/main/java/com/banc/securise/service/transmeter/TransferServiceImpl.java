@@ -130,4 +130,16 @@ public class TransferServiceImpl implements TransferService {
         }
         return "Operation status or type are not correct";
     }
+    @Override
+    public  String cancelTransfer(Integer id){
+        Operation op = operationRepository.findById(id).orElseThrow(() -> new RuntimeException("operation not found"));
+        if (op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.TRANSFER)) {
+            op.setStatus(OperationStatus.CANCELED);
+            op.setValidatedAt(LocalDateTime.now());
+            op.setExecutedAt(LocalDateTime.now());
+            operationRepository.save(op);
+            return "Operation confirmed";
+        }
+        return "Operation status or type are not correct";
+    }
 }
