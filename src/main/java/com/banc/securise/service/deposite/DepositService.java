@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface DepositService {
-    void createDeposit(DepositeDto depositeDto, MultipartFile justificatif , String email) throws IOException;
+    void createDeposit(DepositeDto depositeDto , String email) ;
     String confirmDeposit(Integer id);
     String rejectDeposit(Integer id);
 }

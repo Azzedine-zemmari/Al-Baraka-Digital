@@ -20,15 +20,11 @@ import java.io.IOException;
 public class DepositeController {
     private DepositService depositService;
 
-    @PostMapping(value="/",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> deposit(@RequestPart DepositeDto dto , @RequestPart(value="justificatif" , required = false) MultipartFile justificatif , Authentication authentication){
-        try{
+    @PostMapping(value="/")
+    public ResponseEntity<?> deposit(@RequestBody DepositeDto dto , Authentication authentication){
             String email =  authentication.getName();
-            depositService.createDeposit(dto,justificatif, email);
+            depositService.createDeposit(dto, email);
             return ResponseEntity.ok("deposite success");
-        }catch(IOException e){
-            return ResponseEntity.ok(e.getMessage());
-        }
     }
     @PostMapping(value="/active")
     public ResponseEntity<String> confirmDeposit(@RequestParam("id") int id){

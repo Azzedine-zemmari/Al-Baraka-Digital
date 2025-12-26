@@ -53,7 +53,7 @@ public class DepositServiceImpl implements DepositService{
 
     @Override
     @Transactional
-    public void createDeposit(DepositeDto depositeDto, MultipartFile justificatif ,String email) throws IOException {
+    public void createDeposit(DepositeDto depositeDto ,String email)  {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalStateException("user not authenticated"));
         Account account = accountRepository.findByOwner(user).orElseThrow(()->new IllegalStateException("user has no account"));
         if(user.getActive().equals("false")){
@@ -71,46 +71,11 @@ public class DepositServiceImpl implements DepositService{
             account.setBalance(account.getBalance() + operation.getAmount());
             accountRepository.save(account);
         }else{
-            operation.setAccountDestination(account);
-            operation.setCreatedAt(LocalDateTime.now());
-            if(justificatif == null || justificatif.isEmpty()){
-                throw new IllegalArgumentException("justificatif is required for deposit amount above 10,000");
-            }
-
-            String contentType = justificatif.getContentType();
-            if(!(contentType.equals("application/pdf") ||
-                    (contentType.equals("image/jpeg")) ||
-                    (contentType.equals("image/png")) )){
-                throw new IllegalArgumentException("invalid file type");
-            }
-
-            if(justificatif.getSize() > 5 * 1024 * 1024){
-                throw new IllegalArgumentException("invalid file size");
-            }
-
-            String fileName = UUID.randomUUID() + "_" + justificatif.getOriginalFilename();
-
-            Path uploadPath = Paths.get(uploadDir);
-            Files.createDirectories(uploadPath);
-
-            Path filePath = uploadPath.resolve(fileName);
-            justificatif.transferTo(filePath.toFile());
-
-            operation.setStatus(OperationStatus.PENDING);
-
-            Document document = new Document();
-            document.setFileName(fileName);
-            document.setOperation(operation);
-            document.setUploadedAt(LocalDateTime.now());
-            document.setFileType(contentType);
-            document.setStoragePath(filePath.toString());
-
-            documentRepository.save(document);
-
+           operation.setStatus(OperationStatus.PENDING);
+           operation.setAccountDestination(account);
+           operation.setCreatedAt(LocalDateTime.now());
         }
-
         operationRepository.save(operation);
-
     }
     @Override
     @Transactional
