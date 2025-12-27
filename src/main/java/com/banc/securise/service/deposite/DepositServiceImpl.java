@@ -56,7 +56,7 @@ public class DepositServiceImpl implements DepositService{
     public void createDeposit(DepositeDto depositeDto ,String email)  {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalStateException("user not authenticated"));
         Account account = accountRepository.findByOwner(user).orElseThrow(()->new IllegalStateException("user has no account"));
-        if(user.getActive().equals("false")){
+        if(!user.isActive()){
             throw new AccountInactiveException();
         }
 

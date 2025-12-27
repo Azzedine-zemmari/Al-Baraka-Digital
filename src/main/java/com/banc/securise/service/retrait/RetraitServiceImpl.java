@@ -51,7 +51,7 @@ public class RetraitServiceImpl implements RetraitService{
     public void createRetrait(DepositeDto dto, MultipartFile justificatif,String email) throws IOException{
         User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalStateException("user not authenticated"));
         Account account = accountRepository.findByOwner(user).orElseThrow(()->new IllegalStateException("user has no account"));
-        if(user.getActive().equals("false")){
+        if(!user.isActive()){
             throw new AccountInactiveException();
         }
         if(account.getBalance() > dto.getAmount()){

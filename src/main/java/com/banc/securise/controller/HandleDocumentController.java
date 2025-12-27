@@ -3,6 +3,7 @@ package com.banc.securise.controller;
 import com.banc.securise.service.handleDocument.HandleDocumentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,5 +20,10 @@ public class HandleDocumentController {
     public ResponseEntity<String> confirmDocument(@PathVariable int id){
         String confrimation = handleDocumentService.confirmDocument(id);
         return ResponseEntity.ok(confrimation);
+    }
+    @PostMapping(value="{id}/cancel")
+    public ResponseEntity<String> cancelDocument(@PathVariable int id){
+        String rejection = handleDocumentService.rejectDocument(id);
+        return ResponseEntity.ok(rejection);
     }
 }

@@ -30,7 +30,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role = Role.ROLE_CLIENT;
 
-    private String active = "true";
+    @Column(nullable = false)
+    private boolean active;
 
     private LocalDateTime created_at = LocalDateTime.now();
 

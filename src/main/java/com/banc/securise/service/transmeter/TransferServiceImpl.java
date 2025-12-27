@@ -49,7 +49,7 @@ public class TransferServiceImpl implements TransferService {
     public void createTransfer(TransferDto dto, MultipartFile justificatif , String email) throws IOException {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("user not found"));
         Account accountSource = accountRepository.findByOwner(user).orElseThrow(()-> new RuntimeException("account not found"));
-        if(user.getActive().equals("false")){
+        if(!user.isActive()){
             throw new AccountInactiveException();
         }
         if (dto.getAmount() <= 0) {

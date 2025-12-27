@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService{
 
             String hash = passwordEncoder.encode(userRegisterDto.getPassword());
             user.setPassword(hash);
-            user.setActive("false");
+            user.setActive(false);
             user.setRole(userRegisterDto.getRole() != null ? userRegisterDto.getRole() : Role.ROLE_CLIENT);
 
             userRepository.save(user);
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserDto activeUser(Integer id){
         User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found"));
-        user.setActive("true");
+        user.setActive(true);
         userRepository.save(user);
         return userDtoMapper.userToDto(user);
     }
@@ -122,10 +122,11 @@ public class UserServiceImpl implements UserService{
 
         String hash = passwordEncoder.encode(userRegisterDto.getPassword());
         user.setPassword(hash);
-        user.setActive("true");
+        user.setActive(true);
         user.setRole(userRegisterDto.getRole() != null ? userRegisterDto.getRole() : Role.ROLE_CLIENT);
-
+        System.out.println("user role : "  + userRegisterDto.getRole());
         userRepository.save(user);
+        System.out.println("user active : "  + user.isActive());
 
         if(user.getRole() == Role.ROLE_CLIENT){
             Account account = new Account();

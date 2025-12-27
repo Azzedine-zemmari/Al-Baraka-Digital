@@ -27,7 +27,7 @@ public class StatusUserController {
     }
     @PostMapping("/createUser")
     public ResponseEntity<UserRegisterDto> registerUserByAdmin(@RequestBody UserRegisterDto dto){
-        UserRegisterDto result = userService.registerUser(dto);
+        UserRegisterDto result = userService.registerUserByAdmin(dto);
         return ResponseEntity.ok(result);
     }
 

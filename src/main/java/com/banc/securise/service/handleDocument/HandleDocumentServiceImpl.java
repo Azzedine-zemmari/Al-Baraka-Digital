@@ -50,5 +50,17 @@ public class HandleDocumentServiceImpl implements HandleDocumentService{
         }
             return "Operation confirmed";
     }
+    @Override
+    public String rejectDocument(int id){
+        Operation op = operationRepository.findById(id).orElseThrow(()-> new RuntimeException("operation not found"));
+        if(op.getStatus().equals(OperationStatus.PENDING)){
+            op.setStatus(OperationStatus.CANCELED);
+            op.setValidatedAt(LocalDateTime.now());
+            op.setExecutedAt(LocalDateTime.now());
+            operationRepository.save(op);
+            return "Operation canceled";
+        }
+        return "Operation is already canceld or accepted";
+    }
 
 }
