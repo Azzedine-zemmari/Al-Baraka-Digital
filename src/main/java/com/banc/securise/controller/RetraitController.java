@@ -15,23 +15,13 @@ public class RetraitController {
     private RetraitService retraitService;
 
     @PostMapping(value="/")
-    public ResponseEntity<String> Retrait(@RequestPart DepositeDto dto , @RequestPart(value="justificatif" , required = false) MultipartFile justificatif , Authentication authentication){
+    public ResponseEntity<String> Retrait(@RequestBody DepositeDto dto , Authentication authentication){
         try{
             String email = authentication.getName();
-            retraitService.createRetrait(dto,justificatif,email);
+            retraitService.createRetrait(dto,email);
             return ResponseEntity.ok("retrait avec success");
         }catch(Exception e){
             return ResponseEntity.ok(e.getMessage());
         }
-    }
-    @PostMapping(value="/active")
-    public ResponseEntity<String> confirmRetrait(@RequestParam("id") int id){
-        String result = retraitService.confirmRetrait(id);
-        return ResponseEntity.ok(result);
-    }
-    @PostMapping(value="/cancel")
-    public ResponseEntity<String> cancelDeposit(@RequestParam("id") int id){
-        String result = retraitService.rejectRetrait(id);
-        return ResponseEntity.ok(result);
     }
 }

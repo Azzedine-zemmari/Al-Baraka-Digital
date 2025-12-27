@@ -21,7 +21,7 @@ public class HandleDocumentController {
         String confrimation = handleDocumentService.confirmDocument(id);
         return ResponseEntity.ok(confrimation);
     }
-    @PostMapping(value="{id}/cancel")
+    @PostMapping(value="/{id}/cancel")
     public ResponseEntity<String> cancelDocument(@PathVariable int id){
         String rejection = handleDocumentService.rejectDocument(id);
         return ResponseEntity.ok(rejection);

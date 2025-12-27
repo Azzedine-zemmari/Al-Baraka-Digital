@@ -48,7 +48,7 @@ public class RetraitServiceImpl implements RetraitService{
 
     @Override
     @Transactional
-    public void createRetrait(DepositeDto dto, MultipartFile justificatif,String email) throws IOException{
+    public void createRetrait(DepositeDto dto,String email){
         User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalStateException("user not authenticated"));
         Account account = accountRepository.findByOwner(user).orElseThrow(()->new IllegalStateException("user has no account"));
         if(!user.isActive()){
@@ -68,70 +68,11 @@ public class RetraitServiceImpl implements RetraitService{
             else{
                 operation.setAccountDestination(account);
                 operation.setCreatedAt(LocalDateTime.now());
-
-                String contentType = justificatif.getContentType();
-
-                if(!(contentType.equals("application/pdf") ||
-                        (contentType.equals("image/jpeg")) ||
-                        (contentType.equals("image/png")) )){
-                    throw new IllegalArgumentException("invalid file type");
-                }
-
-                if(justificatif.getSize() > 5 * 1024 * 1024){
-                    throw new IllegalArgumentException("invalid file size");
-                }
-
-                String fileName  = UUID.randomUUID() + "_" + justificatif.getOriginalFilename();
-
-                Path uploadPath = Paths.get(uploadDir);
-                Files.createDirectories(uploadPath);
-
-                Path filePath = uploadPath.resolve(fileName);
-                justificatif.transferTo(filePath.toFile());
-
+                operation.setCreatedAt(LocalDateTime.now());
                 operation.setStatus(OperationStatus.PENDING);
-
-                Document document = new Document();
-                document.setFileName(fileName);
-                document.setOperation(operation);
-                document.setUploadedAt(LocalDateTime.now());
-                document.setFileType(contentType);
-                document.setStoragePath(filePath.toString());
-
-                documentRepository.save(document);
-
             }
-
             operationRepository.save(operation);
         }
 
-    }
-    @Override
-    @Transactional
-    public String confirmRetrait(Integer id) {
-        Operation op = operationRepository.findById(id).orElseThrow(() -> new RuntimeException("operation not found"));
-        if (op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.WITHDRAWAL)) {
-            op.setStatus(OperationStatus.APPROVE);
-            op.setValidatedAt(LocalDateTime.now());
-            op.setExecutedAt(LocalDateTime.now());
-            operationRepository.save(op);
-            Account account = op.getAccountDestination();
-            account.setBalance(account.getBalance() - op.getAmount());
-            accountRepository.save(account);
-            return "Operation confirmed";
-        }
-        return "Operation status or type are not correct";
-    }
-    @Override
-    public String rejectRetrait(Integer id){
-        Operation op = operationRepository.findById(id).orElseThrow(()-> new RuntimeException("operation not found"));
-        if(op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.WITHDRAWAL)){
-            op.setStatus(OperationStatus.CANCELED);
-            op.setValidatedAt(LocalDateTime.now());
-            op.setExecutedAt(LocalDateTime.now());
-            operationRepository.save(op);
-            return "Operation canceled";
-        }
-        return "Operation is already canceld or accepted";
     }
 }

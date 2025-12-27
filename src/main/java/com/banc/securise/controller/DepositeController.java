@@ -26,14 +26,4 @@ public class DepositeController {
             depositService.createDeposit(dto, email);
             return ResponseEntity.ok("deposite success");
     }
-    @PostMapping(value="/active")
-    public ResponseEntity<String> confirmDeposit(@RequestParam("id") int id){
-        String result = depositService.confirmDeposit(id);
-        return ResponseEntity.ok(result);
-    }
-    @PostMapping(value="/cancel")
-    public ResponseEntity<String> cancelDeposit(@RequestParam("id") int id){
-        String result = depositService.rejectDeposit(id);
-        return ResponseEntity.ok(result);
-    }
 }

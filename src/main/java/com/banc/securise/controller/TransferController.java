@@ -17,23 +17,9 @@ public class TransferController {
     private final TransferService transferService;
 
     @PostMapping(value="/")
-    public ResponseEntity<String> createTransfer(@RequestPart TransferDto dto , @RequestPart(value="justificatif" , required = false) MultipartFile justificatif , Authentication authentication)  {
-        try{
+    public ResponseEntity<String> createTransfer(@RequestBody TransferDto dto  , Authentication authentication)  {
             String email = authentication.getName();
-            transferService.createTransfer(dto,justificatif,email);
+            transferService.createTransfer(dto,email);
             return ResponseEntity.ok("success");
-        }catch(IOException e){
-            return ResponseEntity.ok(e.getMessage());
-        }
-    }
-    @PostMapping(value="/active")
-    public ResponseEntity<String> confirmRetrait(@RequestParam("id") int id){
-        String result = transferService.confirmTransfer(id);
-        return ResponseEntity.ok(result);
-    }
-    @PostMapping(value="/cancel")
-    public ResponseEntity<String> cancelDeposit(@RequestParam("id") int id){
-        String result = transferService.cancelTransfer(id);
-        return ResponseEntity.ok(result);
     }
 }

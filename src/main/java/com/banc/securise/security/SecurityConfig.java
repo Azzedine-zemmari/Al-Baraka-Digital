@@ -48,6 +48,7 @@ public class SecurityConfig {
 //                                .requestMatchers("/api/agentOauth/**").permitAll()
                                 .requestMatchers("/api/v1/auth/login").permitAll()
                                 .requestMatchers("/api/admin/users/").hasRole("ADMIN")
+                                .requestMatchers("/api/admin/users/desactiveUser/**").hasRole("ADMIN")
                                 .requestMatchers("/api/agent/operations/**").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/users/showAll").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/users/createUser").hasRole("ADMIN")

@@ -8,6 +8,4 @@ import java.io.IOException;
 
 public interface DepositService {
     void createDeposit(DepositeDto depositeDto , String email) ;
-    String confirmDeposit(Integer id);
-    String rejectDeposit(Integer id);
 }

@@ -14,5 +14,6 @@ public interface UserService {
     UserDto activeUser(Integer id);
     List<UserDto> showAllUsers();
     UserRegisterDto registerUserByAdmin(UserRegisterDto userRegisterDto);
+    String desactiveUser(Integer id);
 
 }

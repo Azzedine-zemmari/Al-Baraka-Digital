@@ -30,5 +30,10 @@ public class StatusUserController {
         UserRegisterDto result = userService.registerUserByAdmin(dto);
         return ResponseEntity.ok(result);
     }
+    @PostMapping("/desactiveUser/{id}")
+    public ResponseEntity<String> desactiveUserByAdmin(@PathVariable int id){
+        String result = userService.desactiveUser(id);
+        return ResponseEntity.ok(result);
+    }
 
 }

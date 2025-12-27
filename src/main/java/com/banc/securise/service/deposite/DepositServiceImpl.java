@@ -77,34 +77,4 @@ public class DepositServiceImpl implements DepositService{
         }
         operationRepository.save(operation);
     }
-    @Override
-    @Transactional
-    public String confirmDeposit(Integer id){
-        Operation op = operationRepository.findById(id).orElseThrow(()-> new RuntimeException("operation not found"));
-        if(op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.DEPOSIT)){
-            op.setStatus(OperationStatus.APPROVE);
-            op.setValidatedAt(LocalDateTime.now());
-            op.setExecutedAt(LocalDateTime.now());
-            operationRepository.save(op);
-            Account account = op.getAccountDestination();
-            account.setBalance(account.getBalance() + op.getAmount());
-            accountRepository.save(account);
-            return "Operation confirmed";
-        }
-
-        return "Operation status or type are not correct";
-    }
-
-    @Override
-    public String rejectDeposit(Integer id){
-        Operation op = operationRepository.findById(id).orElseThrow(()-> new RuntimeException("operation not found"));
-        if(op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.DEPOSIT)){
-            op.setStatus(OperationStatus.CANCELED);
-            op.setValidatedAt(LocalDateTime.now());
-            op.setExecutedAt(LocalDateTime.now());
-            operationRepository.save(op);
-            return "Operation canceled";
-        }
-        return "Operation is already canceld or accepted";
-    }
 }

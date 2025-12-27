@@ -140,4 +140,12 @@ public class UserServiceImpl implements UserService{
 
         return userMapper.userToDto(user);
     }
+
+    @Override
+    public String desactiveUser(Integer id){
+        User user = userRepository.findById(id).orElseThrow(()->new RuntimeException("User not found"));
+        user.setActive(false);
+        userRepository.save(user);
+        return "user in active successfully";
+    }
 }

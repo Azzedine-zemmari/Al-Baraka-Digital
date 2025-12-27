@@ -46,7 +46,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     @Transactional
-    public void createTransfer(TransferDto dto, MultipartFile justificatif , String email) throws IOException {
+    public void createTransfer(TransferDto dto , String email)  {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("user not found"));
         Account accountSource = accountRepository.findByOwner(user).orElseThrow(()-> new RuntimeException("account not found"));
         if(!user.isActive()){
@@ -76,70 +76,8 @@ public class TransferServiceImpl implements TransferService {
             operation.setAccountDestination(accountDestination);
             operation.setAccountSource(accountSource);
             operation.setCreatedAt(LocalDateTime.now());
-            if(justificatif == null || justificatif.isEmpty()){
-                throw new IllegalArgumentException("justificatif is required for deposit amount above 10,000");
-            }
-            String contentType = justificatif.getContentType();
-            if(!(contentType.equals("application/pdf") ||
-                    (contentType.equals("image/jpeg")) ||
-                    (contentType.equals("image/png")) )){
-                throw new IllegalArgumentException("invalid file type");
-            }
-
-            if(justificatif.getSize() > 5 * 1024 * 1024){
-                throw new IllegalArgumentException("invalid file size");
-            }
-
-            String fileName = UUID.randomUUID() + "_" + justificatif.getOriginalFilename();
-
-            Path uploadPath = Paths.get(uploadDir);
-            Files.createDirectories(uploadPath);
-
-            Path filePath = uploadPath.resolve(fileName);
-            justificatif.transferTo(filePath.toFile());
-
             operation.setStatus(OperationStatus.PENDING);
-
-            Document document = new Document();
-            document.setFileName(fileName);
-            document.setOperation(operation);
-            document.setUploadedAt(LocalDateTime.now());
-            document.setFileType(contentType);
-            document.setStoragePath(filePath.toString());
-
-            documentRepository.save(document);
         }
         operationRepository.save(operation);
-    }
-    @Override
-    @Transactional
-    public String confirmTransfer(Integer id){
-        Operation op = operationRepository.findById(id).orElseThrow(() -> new RuntimeException("operation not found"));
-        if (op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.TRANSFER)) {
-            op.setStatus(OperationStatus.APPROVE);
-            op.setValidatedAt(LocalDateTime.now());
-            op.setExecutedAt(LocalDateTime.now());
-            operationRepository.save(op);
-            Account accountDestination = op.getAccountDestination();
-            Account accountSource = op.getAccountSource();
-            accountDestination.setBalance(accountDestination.getBalance() + op.getAmount());
-            accountSource.setBalance(accountSource.getBalance() - op.getAmount());
-            accountRepository.save(accountDestination);
-            accountRepository.save(accountSource);
-            return "Operation confirmed";
-        }
-        return "Operation status or type are not correct";
-    }
-    @Override
-    public  String cancelTransfer(Integer id){
-        Operation op = operationRepository.findById(id).orElseThrow(() -> new RuntimeException("operation not found"));
-        if (op.getStatus().equals(OperationStatus.PENDING) && op.getType().equals(OperationType.TRANSFER)) {
-            op.setStatus(OperationStatus.CANCELED);
-            op.setValidatedAt(LocalDateTime.now());
-            op.setExecutedAt(LocalDateTime.now());
-            operationRepository.save(op);
-            return "Operation confirmed";
-        }
-        return "Operation status or type are not correct";
     }
 }
