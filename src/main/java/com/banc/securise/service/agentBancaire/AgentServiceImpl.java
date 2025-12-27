@@ -33,5 +33,9 @@ public class AgentServiceImpl implements AgentService{
                 .map(operationDtoMaper::entityToDto)
                 .toList();
     }
+    @Override
+    public Operation getOperationById(int id){
+        return operationRepository.findById(id).orElseThrow(()-> new RuntimeException("operation not found"));
+    }
 
 }
