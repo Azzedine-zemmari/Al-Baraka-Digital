@@ -57,6 +57,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/retrait/cancel/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/transfer/active/**").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/transfer/cancel/**").hasRole("ADMIN")
+                                .requestMatchers("/api/handle/document/**").hasRole("ADMIN")
                                 .requestMatchers("/api/client/operations/").hasRole("ADMIN")
                                 .requestMatchers("/api/v1/deposite/**").hasRole("CLIENT")
                                 .requestMatchers("/api/v1/retrait/").hasRole("CLIENT")
