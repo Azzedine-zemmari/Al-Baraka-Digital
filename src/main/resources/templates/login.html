@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<div className="min-h-screen flex items-center justify-center px-4 py-12">
+    <div className="w-full max-w-md">
+        {/* Header */}
+        <div className="mb-8 text-center">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Welcome back</h1>
+            <p className="text-muted-foreground">Sign in to your account to continue</p>
+        </div>
+
+        {/* Login Card */}
+        <div className="p-8 border border-border">
+            <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Email Field */}
+                <div className="space-y-2">
+                    <Label htmlFor="email" className="text-sm font-medium">
+                        Email address
+                    </Label>
+                    <Input id="email" type="email" placeholder="name@example.com" required className="h-10" />
+                </div>
+
+                {/* Password Field */}
+                <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                        <Label htmlFor="password" className="text-sm font-medium">
+                            Password
+                        </Label>
+                        <a href="#" className="text-xs text-primary hover:underline">
+                            Forgot password?
+                        </a>
+                    </div>
+                    <Input id="password" type="password" placeholder="••••••••" required className="h-10" />
+                </div>
+
+                {/* Submit Button */}
+                <Button type="submit" className="w-full h-10 font-medium">
+                   Sign in
+                </Button>
+            </form>
+
+            {/* Divider */}
+            <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-border"></div>
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+                </div>
+            </div>
+
+            {/* OAuth Buttons */}
+            <div className="grid grid-cols-2 gap-3">
+                <Button type="button" variant="outline" className="h-10 bg-transparent">
+                    GitHub
+                </Button>
+                <Button type="button" variant="outline" className="h-10 bg-transparent">
+                    Google
+                </Button>
+            </div>
+        </div>
+
+        {/* Sign Up Link */}
+        <p className="text-center text-sm text-muted-foreground mt-6">
+            Don't have an account?{" "}
+            <a href="#" className="text-primary hover:underline font-medium">
+                Sign up
+            </a>
+        </p>
+    </div>
+</div>
+</body>
+</html>

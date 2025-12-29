@@ -11,6 +11,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -28,7 +29,8 @@ public class OperationsController {
     private AgentService agenceService;
     private DocumentRepository documentRepository;
 
-    @GetMapping(value="/agentOauth/pending")
+//    @PreAuthorize("hasRole('AGENT_BANCAIRE')")
+    @GetMapping(value="/agent/operations/pending")
     public ResponseEntity<List<OperationDto>> operationPending(){
         List<OperationDto> result = agenceService.consulterOperationPending();
         return ResponseEntity.ok(result);
