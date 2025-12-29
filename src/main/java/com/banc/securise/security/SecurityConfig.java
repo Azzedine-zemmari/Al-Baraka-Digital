@@ -50,7 +50,7 @@ public class SecurityConfig {
 //        return http.build();
 //    }
     @Bean
-//    @Order(2)
+    @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
@@ -61,7 +61,6 @@ public class SecurityConfig {
                                 .requestMatchers("/api/agentOauth/pending").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/client/operations").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/v1/auth/login").permitAll()
-                                .requestMatchers("/loginPage").permitAll()
                                 .requestMatchers("/api/admin/users/").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/users/desactiveUser/**").hasRole("ADMIN")
                                 .requestMatchers("/api/agent/operations/**").hasRole("AGENT_BANCAIRE")
@@ -81,6 +80,22 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/loginPage").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/loginPage")
+                        .permitAll()
+                );
+
         return http.build();
     }
 
