@@ -61,7 +61,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/agentOauth/pending").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/client/operations").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/v1/auth/login").permitAll()
-                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/loginPage").permitAll()
                                 .requestMatchers("/api/admin/users/").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/users/desactiveUser/**").hasRole("ADMIN")
                                 .requestMatchers("/api/agent/operations/**").hasRole("AGENT_BANCAIRE")
