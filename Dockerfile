@@ -5,10 +5,18 @@ COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# 2️⃣ Run stage
+# 2️⃣ Runtime stage
 FROM eclipse-temurin:17-jre
 WORKDIR /app
+
+# create uploads folder
+RUN mkdir -p /app/uploads
+
+# copy JAR from build stage
 COPY --from=build /app/target/*.jar app.jar
+
+# expose default Spring Boot port
 EXPOSE 8080
+
+# run app
 ENTRYPOINT ["java","-jar","app.jar"]
-# changed for deployement
