@@ -23,7 +23,7 @@ public class AuthentificationController {
     public ResponseEntity<AuthResponse> login(@RequestBody UserLoginDto dto) {
         return ResponseEntity.ok(userService.loginUser(dto));
     }
-    @GetMapping("testRail")
+    @GetMapping("/testRail")
     public String test(){
         return "Backend running";
     }
