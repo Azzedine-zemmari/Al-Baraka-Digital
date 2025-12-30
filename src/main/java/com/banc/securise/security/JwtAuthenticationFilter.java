@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
 
         // Skip public endpoints
-        if (path.startsWith("/api/v1/auth") || path.equals("/loginPage"))  {
+        if (path.startsWith("/api/v1/auth") || path.equals("/loginPage") || path.contains("/testRail"))  {
             filterChain.doFilter(request, response);
             return;
         }

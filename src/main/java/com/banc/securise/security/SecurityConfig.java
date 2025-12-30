@@ -59,6 +59,7 @@ public class SecurityConfig {
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/v1/auth/register").permitAll()
+                                .requestMatchers("/api/v1/auth/testRail").permitAll()
                                 .requestMatchers("/api/agentOauth/pending").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/client/operations").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/v1/auth/login").permitAll()
