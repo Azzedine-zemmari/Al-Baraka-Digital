@@ -33,7 +33,8 @@ services:
 
 networks:
   securise_net:
-    external: true
+    driver: bridge
+
 
 volumes:
   mysql_data:
