@@ -22,25 +22,27 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtService jwtService;
-    private final CustomUserDetails customUserDetails;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !request.getServletPath().startsWith("/api/");
+        String path = request.getServletPath();
+
+        return path.equals("/login")
+                || path.equals("/error")
+                || path.startsWith("/css/")
+                || path.startsWith("/js/")
+                || path.startsWith("/images/")
+                || path.startsWith("/webjars/")
+                || path.startsWith("/api/v1/auth/");
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
-
-        String path = request.getServletPath();
-
-        // Skip public endpoints
-        if (path.startsWith("/api/v1/auth") || path.contains("/testRail"))  {
-            filterChain.doFilter(request, response);
-            return;
-        }
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -56,22 +58,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String username = jwtService.extractUsername(token);
-        String role = jwtService.extractRole(token); // e.g., "ROLE_CLIENT"
+        String role = jwtService.extractRole(token);
+        List<GrantedAuthority> authorities =
+                List.of(new SimpleGrantedAuthority(role));
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(username, null, authorities);
 
-            // Build authorities from JWT role
-            List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
-
-            // Authentication object
-            UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(username, null, authorities);
-
-            // Set in SecurityContext
-            SecurityContextHolder.getContext().setAuthentication(auth);
-        }
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
         filterChain.doFilter(request, response);
     }
-
 }
