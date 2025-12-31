@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>register</title>
+</head>
+<body>
+<div class="register-box">
+  <h2>Bank register</h2>
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+
+    <div class="input-group">
+      <label>Email</label>
+      <!-- [(ngModel)] binds the input to credentials.email -->
+      <input type="email" name="email" [(ngModel)]="credentials.email" required>
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <!-- [(ngModel)] binds the input to credentials.password -->
+      <input type="password" name="password" [(ngModel)]="credentials.password" required>
+    </div>
+
+    <div>
+      <label>full name</label>
+      <input type="text" name="fullName" [(ngModel)]="credentials.fullname" required>
+    </div>
+
+    <button type="submit" [disabled]="!registerForm.valid">Sign In</button>
+  </form>
+</div>
+</body>
+</html>
