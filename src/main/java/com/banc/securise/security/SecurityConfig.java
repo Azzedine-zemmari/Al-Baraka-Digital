@@ -50,15 +50,14 @@ public class SecurityConfig {
 //        return http.build();
 //    }
     @Bean
-    @Order(2)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/**")
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm ->
                         sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/v1/auth/register").permitAll()
+                                auth.requestMatchers("/auth/**", "/api/client/register", "/loginPage", "/templates/**", "/css/**", "/js/**","/api/v1/auth/register").permitAll()
+                                .requestMatchers("/").authenticated()
                                 .requestMatchers("/api/v1/auth/testRail").permitAll()
                                 .requestMatchers("/api/agentOauth/pending").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/client/operations").hasRole("AGENT_BANCAIRE")
@@ -68,12 +67,6 @@ public class SecurityConfig {
                                 .requestMatchers("/api/agent/operations/**").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/admin/users/showAll").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/users/createUser").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/deposite/active/**").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/deposite/cancel/**").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/retrait/active/**").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/retrait/cancel/**").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/transfer/active/**").hasRole("ADMIN")
-                                .requestMatchers("/api/v1/transfer/cancel/**").hasRole("ADMIN")
                                 .requestMatchers("/api/handle/document/**").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/client/operations/").hasRole("CLIENT")
                                 .requestMatchers("/api/v1/deposite/**").hasRole("CLIENT")
@@ -81,24 +74,32 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/transfer/").hasRole("CLIENT")
                                 .anyRequest().authenticated()
                 )
+                .formLogin(form -> form
+                        .loginPage("/loginPage")
+//                        .loginProcessingUrl("/auth/login")
+//                        .usernameParameter("email")
+//                        .passwordParameter("password")
+//                        .defaultSuccessUrl("/", true)
+                        .permitAll()
+                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
-    @Bean
-    @Order(1)
-    public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
-        http
-                .securityMatcher("/loginPage", "/css/**", "/js/**", "/images/**")
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .formLogin(form -> form
-                        .loginPage("/loginPage")
-                        .permitAll()
-                ).sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
-        ;
-
-        return http.build();
-    }
+//    @Bean
+//    @Order(1)
+//    public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .securityMatcher("/loginPage", "/css/**", "/js/**", "/images/**")
+//                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+//                .formLogin(form -> form
+//                        .loginPage("/loginPage")
+//                        .permitAll()
+//                ).sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
+//        ;
+//
+//        return http.build();
+//    }
 
 
 
