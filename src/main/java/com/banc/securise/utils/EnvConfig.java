@@ -11,6 +11,6 @@ public class EnvConfig {
         return Dotenv.configure()
                 .directory("./")
                 .ignoreIfMissing()
-                .load();
+                .load() ;
     }
 }
