@@ -55,7 +55,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth ->
-                                auth.requestMatchers("/auth/**", "/api/client/register", "/loginPage", "/templates/**", "/css/**", "/js/**","/api/v1/auth/register").permitAll()
+                                auth.requestMatchers("/auth/**", "/api/client/register", "/loginPage", "/templates/**", "/css/**", "/js/**","/api/v1/auth/register","/error").permitAll()
                                 .requestMatchers("/").authenticated()
                                 .requestMatchers("/api/v1/auth/testRail").permitAll()
                                 .requestMatchers("/api/agentOauth/pending").hasRole("AGENT_BANCAIRE")
