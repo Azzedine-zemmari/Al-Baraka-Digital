@@ -2,7 +2,7 @@
 FROM node:18 AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci --network-timeout=100000
 COPY . .
 RUN npm run build --configuration=production
 
