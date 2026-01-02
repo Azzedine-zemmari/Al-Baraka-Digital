@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Management - SecureBank</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-gray-900">SecureBank</div>
+                    <div class="hidden md:block ml-10">
+                        <div class="flex space-x-8">
+                            <a href="#" class="text-gray-900 font-medium border-b-2 border-blue-600 px-1 pb-4 pt-5">Accounts</a>
+                            <a href="#" class="text-gray-600 hover:text-gray-900 px-1 pb-4 pt-5">Payments</a>
+                            <a href="#" class="text-gray-600 hover:text-gray-900 px-1 pb-4 pt-5">Cards</a>
+                            <a href="#" class="text-gray-600 hover:text-gray-900 px-1 pb-4 pt-5">Support</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-600 hover:text-gray-900">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                    </button>
+                    <button onclick="logout()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Account Overview -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Account Overview</h1>
+            <p class="text-gray-600">Account Number: ****8392</p>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-sm text-gray-600 mb-1">Available Balance</p>
+                    <p class="text-4xl font-bold text-gray-900">$12,543.50</p>
+                    <p class="text-sm text-gray-500 mt-2">Last updated: Today, 2:45 PM</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600 mb-1">Account Type</p>
+                    <p class="text-lg font-semibold text-gray-900">Checking Account</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button onclick="openModal('deposit')" class="bg-white hover:bg-gray-50 border-2 border-gray-200 rounded-lg p-6 text-left transition group">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="text-blue-600 mb-3">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Deposit</h3>
+                            <p class="text-sm text-gray-600">Add funds to your account</p>
+                        </div>
+                    </div>
+                </button>
+
+                <button onclick="openModal('withdraw')" class="bg-white hover:bg-gray-50 border-2 border-gray-200 rounded-lg p-6 text-left transition group">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="text-red-600 mb-3">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Withdraw</h3>
+                            <p class="text-sm text-gray-600">Withdraw from your account</p>
+                        </div>
+                    </div>
+                </button>
+
+                <button onclick="openModal('transfer')" class="bg-white hover:bg-gray-50 border-2 border-gray-200 rounded-lg p-6 text-left transition group">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="text-green-600 mb-3">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold text-gray-900 mb-1">Transfer</h3>
+                            <p class="text-sm text-gray-600">Send money to another account</p>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div class="px-6 py-5 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">Transaction History</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destination</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTable" class="bg-white divide-y divide-gray-200">
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TXN001</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Deposit</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">+$500.00</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">External Account</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">****8392</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Jan 02, 2026 - 10:30 AM</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TXN002</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Withdraw</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-red-600">-$200.00</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">****8392</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">ATM Withdrawal</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Jan 01, 2026 - 3:15 PM</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TXN003</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Transfer</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-red-600">-$150.00</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">****8392</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">****9876</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Dec 30, 2025 - 9:45 AM</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#TXN004</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Deposit</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-green-600">+$1,000.00</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Payroll Deposit</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">****8392</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">Dec 28, 2025 - 8:00 AM</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-8 border w-full max-w-md shadow-lg rounded-lg bg-white">
+            <div class="mb-6">
+                <h3 id="modalTitle" class="text-2xl font-bold text-gray-900"></h3>
+                <p class="text-sm text-gray-600 mt-1">Enter transaction details below</p>
+            </div>
+            
+            <form id="transactionForm" class="space-y-4">
+                <div>
+                    <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Amount (USD)</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-3 text-gray-500">$</span>
+                        <input type="number" id="amount" step="0.01" min="0" 
+                               class="pl-8 w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                               placeholder="0.00" required>
+                    </div>
+                </div>
+                
+                <div id="sourceGroup" class="hidden">
+                    <label for="source" class="block text-sm font-medium text-gray-700 mb-2">Source Account</label>
+                    <input type="text" id="source" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                           placeholder="Enter source account number">
+                </div>
+                
+                <div id="destinationGroup" class="hidden">
+                    <label for="destination" class="block text-sm font-medium text-gray-700 mb-2">Destination Account</label>
+                    <input type="text" id="destination" 
+                           class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
+                           placeholder="Enter destination account number">
+                </div>
+                
+                <div class="flex space-x-3 pt-4">
+                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition">
+                        Confirm Transaction
+                    </button>
+                    <button type="button" onclick="closeModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-md transition">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentAction = '';
+
+        function openModal(action) {
+            currentAction = action;
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modalTitle');
+            const sourceGroup = document.getElementById('sourceGroup');
+            const destinationGroup = document.getElementById('destinationGroup');
+            
+            if (action === 'deposit') {
+                modalTitle.textContent = 'Deposit Funds';
+                sourceGroup.classList.remove('hidden');
+                destinationGroup.classList.add('hidden');
+                document.getElementById('source').required = true;
+                document.getElementById('destination').required = false;
+            } else if (action === 'withdraw') {
+                modalTitle.textContent = 'Withdraw Funds';
+                sourceGroup.classList.add('hidden');
+                destinationGroup.classList.remove('hidden');
+                document.getElementById('source').required = false;
+                document.getElementById('destination').required = true;
+            } else if (action === 'transfer') {
+                modalTitle.textContent = 'Transfer Funds';
+                sourceGroup.classList.remove('hidden');
+                destinationGroup.classList.remove('hidden');
+                document.getElementById('source').required = true;
+                document.getElementById('destination').required = true;
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.add('hidden');
+            document.getElementById('transactionForm').reset();
+        }
+
+        document.getElementById('transactionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const amount = document.getElementById('amount').value;
+            const source = document.getElementById('source').value || '****8392';
+            const destination = document.getElementById('destination').value || '****8392';
+            
+            addTransaction(currentAction, amount, source, destination);
+            closeModal();
+        });
+
+        function addTransaction(type, amount, source, destination) {
+            const table = document.getElementById('transactionTable');
+            const txnId = '#TXN' + String(table.rows.length + 1).padStart(3, '0');
+            const now = new Date();
+            const date = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + 
+                        ' - ' + now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+            
+            const row = table.insertRow(0);
+            row.className = 'hover:bg-gray-50';
+            
+            let typeClass = '';
+            let typeBg = '';
+            let typeText = '';
+            let amountClass = '';
+            let amountPrefix = '';
+            let displayType = '';
+            
+            if (type === 'deposit') {
+                typeClass = 'bg-green-100 text-green-800';
+                amountClass = 'text-green-600';
+                amountPrefix = '+';
+                displayType = 'Deposit';
+            } else if (type === 'withdraw') {
+                typeClass = 'bg-red-100 text-red-800';
+                amountClass = 'text-red-600';
+                amountPrefix = '-';
+                displayType = 'Withdraw';
+            } else if (type === 'transfer') {
+                typeClass = 'bg-blue-100 text-blue-800';
+                amountClass = 'text-red-600';
+                amountPrefix = '-';
+                displayType = 'Transfer';
+            }
+            
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${txnId}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${typeClass}">${displayType}</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold ${amountClass}">${amountPrefix}$${parseFloat(amount).toFixed(2)}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${source}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${destination}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">${date}</td>
+            `;
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                alert('Logging out...');
+            }
+        }
+
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
