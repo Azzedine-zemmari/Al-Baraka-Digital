@@ -20,8 +20,7 @@ export class RegisterComponent{
     onSubmit(){
         this.authService.register(this.credentials).subscribe({
             next: (response) =>{
-                localStorage.setItem('token',response.token)
-                this.router.navigate(['/dashboard'])
+                this.router.navigate(['/login'])
             },
             error: (err) => alert('register Failed !')
         });
