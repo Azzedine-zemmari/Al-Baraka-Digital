@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>register</title>
 </head>
+
 <body>
-<div class="register-box">
-  <h2>Bank register</h2>
-  <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
-
-    <div class="input-group">
-      <label>Email</label>
-      <!-- [(ngModel)] binds the input to credentials.email -->
-      <input type="email" name="email" [(ngModel)]="credentials.email" required>
+ <div class="min-h-screen flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-md">
+    <div class="mb-8 text-center">
+      <h1 class="text-3xl font-bold mb-2">Welcome back</h1>
+      <p class="text-gray-500">Sign in to your account to continue</p>
     </div>
 
-    <div class="input-group">
-      <label>Password</label>
-      <!-- [(ngModel)] binds the input to credentials.password -->
-      <input type="password" name="password" [(ngModel)]="credentials.password" required>
-    </div>
+    <div class="p-8 border border-gray-200">
+      <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+        <div class="space-y-2">
+          <label for="email" class="text-sm font-medium">Email address</label>
+          <input type="email" name="email" [(ngModel)]="credentials.email" required class="h-10 w-full border px-2">
+        </div>
 
-    <div>
-      <label>full name</label>
-      <input type="text" name="fullName" [(ngModel)]="credentials.fullname" required>
-    </div>
+        <div class="space-y-2 mt-4">
+          <label for="password" class="text-sm font-medium">Password</label>
+          <input type="password" name="password" [(ngModel)]="credentials.password" placeholder="••••••••" required class="h-10 w-full border px-2">
+        </div>
 
-    <button type="submit" [disabled]="!registerForm.valid">Sign In</button>
-  </form>
+        <div class="space-y-2 mt-4">
+          <label for="fullname" class="text-sm font-medium">Full name</label>
+          <input type="text" name="fullName" [(ngModel)]="credentials.fullname" required class="h-10 w-full border px-2">
+        </div>
+
+        <button type="submit" [disabled]="!registerForm.valid" class="w-full h-10 mt-4 bg-blue-500 text-white font-medium rounded">Sign In</button>
+      </form>
+    </div>
+  </div>
 </div>
+
 </body>
+
 </html>

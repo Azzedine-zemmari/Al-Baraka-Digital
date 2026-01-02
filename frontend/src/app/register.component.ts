@@ -23,7 +23,7 @@ export class RegisterComponent{
                 localStorage.setItem('token',response.token)
                 this.router.navigate(['/dashboard'])
             },
-            error: (err) => alert('login Failed !')
+            error: (err) => alert('register Failed !')
         });
     }
 }

@@ -5,6 +5,7 @@ COPY package*.json ./
 RUN npm ci --network-timeout=100000
 COPY . .
 RUN npm run build --configuration=production
+RUN find dist -name index.html
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
