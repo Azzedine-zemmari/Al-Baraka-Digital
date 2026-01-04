@@ -16,8 +16,14 @@ public class JwtService {
     public JwtService(Dotenv dotenv){
         SECRET_KEY = dotenv.get("JWT_SECRET");
     }
-    public String generateToken(UserDetails userDetails){
-            String role = userDetails.getAuthorities()
+    public String generateToken(UserDetails userDetails , boolean rememberMe){
+        Long expiration;
+        if(rememberMe){
+            expiration = 1000L * 60 * 60 * 24 * 7; // 7 days
+        }else{
+            expiration = 1000L * 60 * 60; // 1 hour 
+        }
+        String role = userDetails.getAuthorities()
                 .stream()
                 .findFirst()
                 .map(GrantedAuthority::getAuthority)
@@ -27,7 +33,7 @@ public class JwtService {
                     .subject(userDetails.getUsername())
                     .claim("role",role)
                     .issuedAt(new Date())
-                    .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                    .expiration(new Date(System.currentTimeMillis() + expiration))
                     .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
                     .compact();
     }

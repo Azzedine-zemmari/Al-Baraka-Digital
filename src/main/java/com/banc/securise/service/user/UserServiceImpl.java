@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService{
 
         // generate token
 
-        String token = jwtService.generateToken(userDetails);
+        String token = jwtService.generateToken(userDetails,dto.isRememberMe());
 
         // get user entity
         User user = userRepository.findByEmail(dto.getEmail()).orElseThrow(()-> new RuntimeException("user not found"));
