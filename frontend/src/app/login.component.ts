@@ -23,6 +23,7 @@ export class LoginComponent{
                 next:(response : AuthResponse) =>{
                     this.authService.saveToken(response.token);
                     console.log("login success");
+                    this.router.navigate(['/userpage']);
                 },
                 error:(error)=>{
                     console.error("login failed : " , error);

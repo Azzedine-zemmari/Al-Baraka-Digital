@@ -5,11 +5,13 @@ import com.banc.securise.Dto.UserDto;
 import com.banc.securise.Dto.UserLoginDto;
 import com.banc.securise.Dto.UserRegisterDto;
 import com.banc.securise.entity.Account;
+import com.banc.securise.entity.Operation;
 import com.banc.securise.entity.User;
 import com.banc.securise.enums.Role;
 import com.banc.securise.mapper.UserDtoMapper;
 import com.banc.securise.mapper.UserMapper;
 import com.banc.securise.repository.AccountRepository;
+import com.banc.securise.repository.OperationRepository;
 import com.banc.securise.repository.UserRepository;
 import com.banc.securise.security.JwtService;
 import lombok.AllArgsConstructor;
@@ -23,7 +25,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.banc.securise.Dto.UserAuthenticatedResponse;
+import com.banc.securise.exception.AccountNotFoundException;
+import com.banc.securise.exception.UserNotFoundException;
 
+import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -39,6 +45,7 @@ public class UserServiceImpl implements UserService{
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
     private final AccountRepository accountRepository;
+    private final OperationRepository operationRepository;
 
 
     @Override
@@ -148,4 +155,21 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
         return "user in active successfully";
     }
+    @Override
+    public UserAuthenticatedResponse getUserAuthenticatedData(String email){
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException());
+
+        Account account = accountRepository.findByOwner(user).orElseThrow(() -> new AccountNotFoundException());
+
+        List<Operation> operations = operationRepository.findOperationsByAccount(account);
+
+        UserAuthenticatedResponse response = new UserAuthenticatedResponse();
+        response.setAccountNumber(account.getAccountNumber());
+        response.setBalance(account.getBalance());
+        response.setOwner(user);
+        response.setOperations(operations);
+
+        return response;
+    }
+
 }

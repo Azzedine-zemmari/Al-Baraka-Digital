@@ -5,6 +5,7 @@ import com.banc.securise.Dto.UserDto;
 import com.banc.securise.Dto.UserLoginDto;
 import com.banc.securise.Dto.UserRegisterDto;
 import org.jetbrains.annotations.NotNull;
+import com.banc.securise.Dto.UserAuthenticatedResponse;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface UserService {
     List<UserDto> showAllUsers();
     UserRegisterDto registerUserByAdmin(UserRegisterDto userRegisterDto);
     String desactiveUser(Integer id);
-
+    UserAuthenticatedResponse getUserAuthenticatedData(String email);
 }

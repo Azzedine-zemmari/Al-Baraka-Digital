@@ -33,21 +33,22 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 
-                .cors(Customizer.withDefaults()) 
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
 
 //                        .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.FORWARD, jakarta.servlet.DispatcherType.ERROR).permitAll()
 
-                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                .requestMatchers("/api/v1/auth/**").permitAll()
-                                .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/webjars/**","/error").permitAll()
-                                .requestMatchers("/").authenticated()
-                                .requestMatchers("/api/agentOauth/pending").hasRole("AGENT_BANCAIRE")
+                              // allow preflight
+            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+            // public auth endpoints
+        .requestMatchers("/api/v1/auth/login","/api/v1/auth/register").permitAll()                                
+        .requestMatchers("/api/agentOauth/pending").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/client/operations").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/v1/auth/login").permitAll()
-                                .requestMatchers("/api/admin/users/").hasRole("ADMIN")
+                                .requestMatchers("/api/admin/users/**").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/users/desactiveUser/**").hasRole("ADMIN")
                                 .requestMatchers("/api/agent/operations/**").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/admin/users/showAll").hasRole("ADMIN")
@@ -57,6 +58,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/deposite/**").hasRole("CLIENT")
                                 .requestMatchers("/api/v1/retrait/").hasRole("CLIENT")
                                 .requestMatchers("/api/v1/transfer/").hasRole("CLIENT")
+                                .requestMatchers("/api/v1/auth/userInfo").hasRole("CLIENT")
                                 .anyRequest().authenticated()
                 )
 
@@ -80,12 +82,39 @@ public class SecurityConfig {
     }
 
 
+@Bean
+CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
 
+    // EXACT origin (no wildcard with credentials)
+    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+
+    // Explicit methods
+    configuration.setAllowedMethods(
+        List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")
+    );
+
+    // Explicit headers (VERY IMPORTANT)
+    configuration.setAllowedHeaders(
+        List.of("Authorization", "Content-Type", "Accept")
+    );
+
+    // If you use JWT or cookies
+    configuration.setAllowCredentials(true);
+
+    // Optional but recommended
+    configuration.setExposedHeaders(
+        List.of("Authorization")
+    );
+
+    UrlBasedCorsConfigurationSource source =
+        new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+}
     // expose authentication manager as a bean
     @Bean
     public AuthenticationManager authenticationManager() throws Exception{
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-
 }
