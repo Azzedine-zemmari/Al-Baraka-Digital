@@ -10,6 +10,11 @@ import { AuthResponse } from '../src/interfaces/AuthResponse';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
+  logout(){
+    localStorage.removeItem('auth_token');
+    sessionStorage.removeItem('auth_token');
+  }
+
   register(registerData:any){
     return this.http.post<any>(`${environment.apiUrl}/api/v1/auth/register`,registerData);
   }
