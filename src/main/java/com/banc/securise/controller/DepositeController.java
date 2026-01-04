@@ -1,6 +1,7 @@
 package com.banc.securise.controller;
 
 import com.banc.securise.Dto.DepositeDto;
+import com.banc.securise.enums.OperationType;
 import com.banc.securise.service.deposite.DepositService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ public class DepositeController {
     @PostMapping(value="/")
     public ResponseEntity<?> deposit(@RequestBody DepositeDto dto , Authentication authentication){
             String email =  authentication.getName();
+            dto.setType(OperationType.DEPOSIT);
             depositService.createDeposit(dto, email);
             return ResponseEntity.ok("deposite success");
     }
