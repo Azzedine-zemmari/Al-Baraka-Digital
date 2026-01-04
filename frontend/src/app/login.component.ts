@@ -15,13 +15,16 @@ import { AuthResponse } from "../interfaces/AuthResponse";
 export class LoginComponent{
 
         credentials = {email:'',password:''}
+        rememberMe = false;
 
         constructor(private authService:AuthService , private router:Router){}
 
         onSubmit(){
-            this.authService.login(this.credentials).subscribe({
+            this.authService.login({...this.credentials,
+                rememberMe: this.rememberMe
+            }).subscribe({
                 next:(response : AuthResponse) =>{
-                    this.authService.saveToken(response.token);
+                    this.authService.saveToken(response.token,this.rememberMe);
                     console.log("login success");
                     this.router.navigate(['/userpage']);
                 },

@@ -18,7 +18,11 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${environment.apiUrl}/api/v1/auth/login`,loginData);
   }
 
-  saveToken(token:string){
-    localStorage.setItem('auth_token',token);
+  saveToken(token:string , rememberMe: boolean){
+    if(rememberMe){
+      localStorage.setItem('auth_token',token);
+    }else{
+      sessionStorage.setItem('auth_token',token);
+    }
   }
 }
