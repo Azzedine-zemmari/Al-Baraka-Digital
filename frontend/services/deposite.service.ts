@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { DepositeRequest } from "../src/interfaces/DepositeRequest";
 import { Observable } from "rxjs";
@@ -11,7 +11,10 @@ export class DepositService{
 
     deposit(depositData: DepositeRequest) : Observable<any>{
         const token = localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token");
-        const headers = {Authorization : `Bearer ${token}`}
+        const headers = new HttpHeaders({
+            Authorization: `Bearer ${token}`
+        });
+
         return this.http.post(`${environment.apiUrl}/v1/deposite/`,depositData,{headers})
     }
 }

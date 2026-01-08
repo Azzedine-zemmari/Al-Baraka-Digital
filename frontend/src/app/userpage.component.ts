@@ -1,11 +1,12 @@
 import { Component } from "@angular/core";
 import { AuthService } from "../../services/auth.service";
-import { Route, Router } from "@angular/router";
+import { Route, Router, RouterModule } from "@angular/router";
 
 @Component({
     selector:"app-userpage",
     standalone:true,
     templateUrl : "./userpage.component.html",
+    imports:[RouterModule]
 })
 
 

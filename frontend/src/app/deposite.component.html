@@ -6,10 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="">
+    <form (ngSubmit)="makeDeposit()">
         <label for="amount">amount</label>
-        <input type="text" name="deposit" >
-        <button>submit</button>
+        <input type="number" [(ngModel)]="amount" name="amount" placeholder="Enter amount" />
+        <button type="submit">Deposit</button>
     </form>
 </body>
 </html>
