@@ -32,15 +32,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                
+
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-
-//                        .dispatcherTypeMatchers(jakarta.servlet.DispatcherType.FORWARD, jakarta.servlet.DispatcherType.ERROR).permitAll()
-
-                              // allow preflight
+                                // allow preflight
             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
             // public auth endpoints
@@ -63,55 +60,24 @@ public class SecurityConfig {
                 )
 
 
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .loginProcessingUrl("/login")
-//                        .permitAll()
-//                )
-
-
-//                .exceptionHandling(ex -> ex
-//                        .authenticationEntryPoint(new org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint("/login"))
-//                )
-//                .exceptionHandling(ex -> ex
-//                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-//                )
 
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
 
-@Bean
-CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-
-    // EXACT origin (no wildcard with credentials)
-    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
-
-    // Explicit methods
-    configuration.setAllowedMethods(
-        List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")
-    );
-
-    // Explicit headers (VERY IMPORTANT)
-    configuration.setAllowedHeaders(
-        List.of("Authorization", "Content-Type", "Accept")
-    );
-
-    // If you use JWT or cookies
-    configuration.setAllowCredentials(true);
-
-    // Optional but recommended
-    configuration.setExposedHeaders(
-        List.of("Authorization")
-    );
-
-    UrlBasedCorsConfigurationSource source =
-        new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-    return source;
-}
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration config = new CorsConfiguration();
+//        config.setAllowedOrigins(List.of("http://localhost:4200"));
+//        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+//        config.setAllowedHeaders(List.of("*"));
+//        config.setAllowCredentials(true);
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", config);
+//        return source;
+//    }
     // expose authentication manager as a bean
     @Bean
     public AuthenticationManager authenticationManager() throws Exception{

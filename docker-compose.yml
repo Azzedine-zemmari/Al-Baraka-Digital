@@ -7,7 +7,8 @@
       networks:
         - securise_net
     securise-app:
-      image: azzedine122/securise-app:latest
+#      image: azzedine122/securise-app:latest
+      build: .
       container_name: securise-app
       environment:
         SPRING_DATASOURCE_URL: jdbc:mysql://al-bank-mysql:3306/securise

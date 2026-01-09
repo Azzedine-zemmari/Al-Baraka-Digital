@@ -1,8 +1,8 @@
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../src/environments/environment';
+import {environment} from '../environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthResponse } from '../src/interfaces/AuthResponse';
+import { AuthResponse } from '../interfaces/AuthResponse';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -36,8 +36,9 @@ export class AuthService {
   register(registerData:any){
     return this.http.post<any>(`${environment.apiUrl}/api/v1/auth/register`,registerData);
   }
-  
+
   login(loginData:any) : Observable<AuthResponse>{
+    console.log("login init...")
     return this.http.post<AuthResponse>(`${environment.apiUrl}/api/v1/auth/login`,loginData);
   }
 

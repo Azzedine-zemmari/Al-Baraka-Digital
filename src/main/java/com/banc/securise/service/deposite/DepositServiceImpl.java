@@ -8,6 +8,8 @@ import com.banc.securise.entity.User;
 import com.banc.securise.enums.OperationStatus;
 import com.banc.securise.enums.OperationType;
 import com.banc.securise.exception.AccountInactiveException;
+import com.banc.securise.exception.AccountNotFoundException;
+import com.banc.securise.exception.UserNotFoundException;
 import com.banc.securise.mapper.OperationMapper;
 import com.banc.securise.repository.AccountRepository;
 import com.banc.securise.repository.DocumentRepository;
@@ -54,8 +56,8 @@ public class DepositServiceImpl implements DepositService{
     @Override
     @Transactional
     public void createDeposit(DepositeDto depositeDto ,String email)  {
-        User user = userRepository.findByEmail(email).orElseThrow(()-> new IllegalStateException("user not authenticated"));
-        Account account = accountRepository.findByOwner(user).orElseThrow(()->new IllegalStateException("user has no account"));
+        User user = userRepository.findByEmail(email).orElseThrow(()-> new UserNotFoundException());
+        Account account = accountRepository.findByOwner(user).orElseThrow(()->new AccountNotFoundException());
         if(!user.isActive()){
             throw new AccountInactiveException();
         }
