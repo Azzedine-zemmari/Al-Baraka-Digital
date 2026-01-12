@@ -2,6 +2,7 @@ package com.banc.securise.entity;
 
 import com.banc.securise.enums.OperationStatus;
 import com.banc.securise.enums.OperationType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,10 +35,12 @@ public class Operation {
 
      @ManyToOne
      @JoinColumn(name="accountSource_id",nullable=true)
+     @JsonIgnore
      private Account accountSource;
 
     @ManyToOne
     @JoinColumn(name="accountDestination_id",nullable=true)
+    @JsonIgnore
     private Account accountDestination;
 
 

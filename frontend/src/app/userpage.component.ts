@@ -1,21 +1,46 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { Router, RouterModule } from "@angular/router";
 import { AuthService } from "../services/auth.service";
-import { Route, Router, RouterModule } from "@angular/router";
+import { UserPageService } from "../services/userpage.service";
+import {UserAuthenticatedResponse} from '../interfaces/UserAuthenticatedResponse';
 
 @Component({
-    selector:"app-userpage",
-    standalone:true,
-    templateUrl : "./userpage.component.html",
-    imports:[RouterModule]
+  selector: "app-userpage",
+  standalone: true,
+  templateUrl: "./userpage.component.html",
+  imports: [RouterModule, CommonModule]
 })
+export class UserPageComponent implements OnInit {
 
+  user!: UserAuthenticatedResponse;
+  isLoading = true;
 
-export class UserPageComponent{
-    constructor(private authService:AuthService , private route:Router){}
+  constructor(
+    private userPageService: UserPageService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-    logout(){
-        this.authService.logout();
-        this.route.navigate(['/login'])
-    }
+  ngOnInit(): void {
+    this.loadData();
+  }
 
+  loadData(): void {
+    this.userPageService.loadData().subscribe({
+      next: (data) => {
+        this.user = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 }

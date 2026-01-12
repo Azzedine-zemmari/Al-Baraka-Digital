@@ -37,6 +37,24 @@
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Account Overview</h1>
+        <p class="text-gray-600">Account Number: {{user.accountNumber}}</p>
+      </div>
+
+      <!-- Balance Card -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+        <div class="flex justify-between items-start">
+          <div>
+            <p class="text-sm text-gray-600 mb-1">Available Balance</p>
+            <p class="text-4xl font-bold text-gray-900">MAD {{user.balance}}</p>
+          </div>
+          <div class="text-right">
+            <p class="text-sm text-gray-600 mb-1">Account Type</p>
+            <p class="text-lg font-semibold text-gray-900">Checking Account</p>
+          </div>
+        </div>
+      </div>
         <!-- Quick Actions -->
         <div class="mb-8">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
@@ -84,6 +102,69 @@
                 </button>
             </div>
         </div>
-    </div>   
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h2 class="text-xl font-semibold text-gray-900">Transaction History</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Source</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destination</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let op of user.operations" class="hover:bg-gray-50">
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                #{{ op.id }}
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap">
+      <span
+        class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full"
+        [ngClass]="{
+          'bg-green-100 text-green-800': op.type === 'DEPOSIT',
+          'bg-red-100 text-red-800': op.type === 'WITHDRAWAL',
+          'bg-blue-100 text-blue-800': op.type === 'TRANSFER'
+        }"
+      >
+        {{ op.type }}
+      </span>
+              </td>
+
+              <td
+                class="px-6 py-4 whitespace-nowrap text-sm font-semibold"
+                [ngClass]="{
+        'text-green-600': op.type === 'DEPOSIT',
+        'text-red-600': op.type !== 'DEPOSIT'
+      }"
+              >
+                {{ op.type === 'DEPOSIT' ? '+' : '-' }}{{ op.amount }} MAD
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                {{ op.accountSource?.accountNumber || '—' }}
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                {{ op.accountDestination?.accountNumber || '—' }}
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                {{ op.createdAt | date:'medium' }}
+              </td>
+
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 </body>
 </html>
