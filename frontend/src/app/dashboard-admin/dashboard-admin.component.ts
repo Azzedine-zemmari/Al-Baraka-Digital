@@ -29,5 +29,7 @@ export class DashboardAdminComponent {
       },
     });
   }
-  toggleUserStatus(User: User) {}
+  toggleUserStatus(id: number) {
+    
+  }
 }
