@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.banc.securise.enums.OperationType;
 
 @RestController
 @RequestMapping("/api/v1/retrait")
@@ -18,6 +19,7 @@ public class RetraitController {
     public ResponseEntity<String> Retrait(@RequestBody DepositeDto dto , Authentication authentication){
         try{
             String email = authentication.getName();
+            dto.setType(OperationType.WITHDRAWAL);
             retraitService.createRetrait(dto,email);
             return ResponseEntity.ok("retrait avec success");
         }catch(Exception e){
