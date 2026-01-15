@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deposit - SecureBank</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Back Button -->
+      <div class="mb-6">
+        <a
+          routerLink="/userpage"
+          class="inline-flex items-center text-gray-600 hover:text-gray-900 text-sm font-medium"
+        >
+          <svg
+            class="w-5 h-5 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            ></path>
+          </svg>
+          Back to Account
+        </a>
+      </div>
+
+      <!-- Page Header -->
+      <div class="mb-8">
+        <div class="flex items-center mb-2">
+          <div class="text-blue-600 mr-3">
+            <svg
+              class="w-8 h-8"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+              ></path>
+            </svg>
+          </div>
+          <h1 class="text-3xl font-bold text-gray-900">Make a Retrait</h1>
+        </div>
+        <p class="text-gray-600">Add funds to your checking account</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Deposit Form -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <form (ngSubmit)="makeTransfer()">
+              <div class="mb-6">
+                <label
+                  for="amount"
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Transfer Amount
+                </label>
+                <div class="relative">
+                  <div
+                    class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
+                  >
+                    <span class="text-gray-500 text-lg font-semibold">MAD</span>
+                  </div>
+                  <input
+                    type="number"
+                    id="amount"
+                    name="amount"
+                    [(ngModel)]="amount"
+                    placeholder="0.00"
+                    step="0.01"
+                    min="0.01"
+                    required
+                    class="block w-full pl-16 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
+                  />
+                </div>
+                <p class="mt-2 text-sm text-gray-500">
+                  Enter the amount you wish to deposit
+                </p>
+                <label   
+                  for="account"
+                  class="block text-sm font-medium text-gray-700 mb-2">
+                    Destination account
+                  </label>
+                  <div class="relative">
+                    <div
+                      class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"
+                    >
+                      <span class="text-gray-500 text-lg font-semibold">#</span>
+                    </div>
+                    <input
+                      type="number"
+                      id="account"
+                      name="account"
+                      [(ngModel)]="account"
+                      required
+                      class="block w-full pl-16 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
+                    />
+                  </div>
+              </div>
+              <div
+                class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200"
+              >
+                <button
+                  type="button"
+                  routerLink="/accounts"
+                  class="px-6 py-3 border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition shadow-sm"
+                >
+                  Complete Transfer
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
