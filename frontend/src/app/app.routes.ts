@@ -6,6 +6,7 @@ import { DepositComponent } from "./deposit.component";
 import { ClientGuard } from "../../guards/ClientGuard";
 import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.component";
 import { RetraitComponent } from "./retrait/retrait.component";
+import { TransferComponent } from "./transfer/transfer.component";
 
 export const routes: Routes = [
   {
@@ -32,6 +33,10 @@ export const routes: Routes = [
   {
     path: "retrait",
     component: RetraitComponent,
+  },
+  {
+    path: "transfer",
+    component: TransferComponent
   },
   {
     path: "",
