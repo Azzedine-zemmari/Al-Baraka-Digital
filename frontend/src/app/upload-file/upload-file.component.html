@@ -48,7 +48,7 @@
     <!-- Deposit Form -->
     <div class="lg:col-span-2">
       <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <form (ngSubmit)="makeTransfer()">
+        <form >
           <div class="mb-6">
             <label
               for="operation"
@@ -64,7 +64,9 @@
                 required
                 class="block w-full pl-16 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
               >
-                <option></option>
+              @for (o of Operations; track o.id) {
+                <option value="{{o.id}}">{{o.amount}} - {{o.type}}</option>
+              }
               </select>
             </div>
             <p class="mt-2 text-sm text-gray-500">
@@ -80,7 +82,7 @@
                   type="file"
                   id="justife"
                   name="justife"
-                  [(ngModel)]="justife"
+                  (change)="onFileSelected($event)"
                   required
                   class="block w-full pl-16 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
                 />

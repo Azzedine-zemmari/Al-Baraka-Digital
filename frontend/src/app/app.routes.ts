@@ -7,6 +7,7 @@ import { ClientGuard } from "../../guards/ClientGuard";
 import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.component";
 import { RetraitComponent } from "./retrait/retrait.component";
 import { TransferComponent } from "./transfer/transfer.component";
+import { UploadFileComponent } from "./upload-file/upload-file.component";
 
 export const routes: Routes = [
   {
@@ -39,8 +40,13 @@ export const routes: Routes = [
     component: TransferComponent
   },
   {
+    path: "uploadjustif",
+    component: UploadFileComponent,
+    canActivate: [ClientGuard]
+  },
+  {
     path: "",
     redirectTo: "/register",
     pathMatch: "full",
-  },
+  },  
 ];

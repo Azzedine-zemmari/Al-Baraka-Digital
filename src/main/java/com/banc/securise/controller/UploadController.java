@@ -15,7 +15,7 @@ import lombok.*;
 
 
 @RestController
-@RequestMapping(value = "/api/client/operations/")
+@RequestMapping(value = "/api/client/operations")
 
 public class UploadController {
     private final UploadocumentService uploadocumentService;
