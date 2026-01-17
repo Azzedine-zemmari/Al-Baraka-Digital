@@ -48,7 +48,7 @@
     <!-- Deposit Form -->
     <div class="lg:col-span-2">
       <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <form >
+        <form (ngSubmit)="submitJustification()">
           <div class="mb-6">
             <label
               for="operation"
@@ -64,8 +64,9 @@
                 required
                 class="block w-full pl-16 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
               >
+                <option value="" disabled selected>Select operation</option>
               @for (o of Operations; track o.id) {
-                <option value="{{o.id}}">{{o.amount}} - {{o.type}}</option>
+                <option [value]="o.id">{{o.amount}} - {{o.type}}</option>
               }
               </select>
             </div>

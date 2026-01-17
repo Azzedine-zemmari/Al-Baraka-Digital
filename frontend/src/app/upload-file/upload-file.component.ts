@@ -39,4 +39,21 @@ export class UploadFileComponent {
     })
   }
 
+  submitJustification(){
+     if (!this.operation || !this.selectedFile) {
+      alert("Please select an operation and a file");
+      return;
+    }
+    this.operationService
+      .uploadJustificatif(this.operation, this.selectedFile)
+      .subscribe({
+        next: () => {
+          alert("File uploaded successfully");
+        },
+        error: () => {
+          alert("Upload failed");
+        }
+      });
+  }
+
 }
