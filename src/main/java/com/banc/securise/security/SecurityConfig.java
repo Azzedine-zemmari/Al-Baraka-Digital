@@ -57,6 +57,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/transfer/").hasRole("CLIENT")
                                 .requestMatchers("/api/v1/auth/userInfo").hasRole("CLIENT")
                                 .requestMatchers("/api/client/operations/unjustified").hasRole("CLIENT")
+                                .requestMatchers("/api/documents").hasRole("AGENT_BANCAIRE")
                                 .anyRequest().authenticated()
                 )
 

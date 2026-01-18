@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -48,5 +49,10 @@ public class DownloadOperationDocument {
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=\"" + document.getFileName() + "\"")
                 .body(resource);
+    }
+    @GetMapping("/documents")
+    public ResponseEntity<List<Document>> getAllDocuments(){
+        List<Document> data = agenceService.showAllDocuments();
+        return ResponseEntity.ok(data);
     }
 }

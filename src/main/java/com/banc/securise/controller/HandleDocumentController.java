@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/handle/document")
 public class HandleDocumentController {
     private HandleDocumentService handleDocumentService;
+    
 
-    @PostMapping(value="/{id}/confirm")
     public ResponseEntity<String> confirmDocument(@PathVariable int id){
         String confrimation = handleDocumentService.confirmDocument(id);
         return ResponseEntity.ok(confrimation);
