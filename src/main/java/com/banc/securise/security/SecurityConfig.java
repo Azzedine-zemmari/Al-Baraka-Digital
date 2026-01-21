@@ -32,7 +32,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
+                .headers(header -> header.frameOptions(frame -> frame.sameOrigin()))    
                 .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -45,9 +45,9 @@ public class SecurityConfig {
         .requestMatchers("/api/agentOauth/pending").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/client/operations").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/v1/auth/login").permitAll()
+                                .requestMatchers("/api/agent/operations/*/download").permitAll()
                                 .requestMatchers("/api/admin/users/**").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/users/desactiveUser/**").hasRole("ADMIN")
-                                .requestMatchers("/api/agent/operations/**").hasRole("AGENT_BANCAIRE")
                                 .requestMatchers("/api/admin/users/showAll").hasRole("ADMIN")
                                 .requestMatchers("/api/admin/users/createUser").hasRole("ADMIN")
                                 .requestMatchers("/api/handle/document/**").hasRole("AGENT_BANCAIRE")

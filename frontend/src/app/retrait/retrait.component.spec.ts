@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RetraitComponent } from './retrait.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RetraitService } from '../../services/retrait.service';
+
 
 describe('RetraitComponent', () => {
   let component: RetraitComponent;
@@ -8,7 +11,8 @@ describe('RetraitComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RetraitComponent]
+      imports: [RetraitComponent,HttpClientTestingModule],
+      providers:[RetraitService]
     })
     .compileComponents();
 

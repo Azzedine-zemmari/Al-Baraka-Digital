@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DownloadFileComponent } from './download-file.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { DocumentService } from '../../services/document.service';
 
 describe('DownloadFileComponent', () => {
   let component: DownloadFileComponent;
@@ -8,7 +10,8 @@ describe('DownloadFileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DownloadFileComponent]
+      imports: [DownloadFileComponent,HttpClientTestingModule ],
+      providers:[DocumentService]
     })
     .compileComponents();
 

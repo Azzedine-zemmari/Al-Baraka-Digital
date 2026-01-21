@@ -8,6 +8,7 @@ import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.compo
 import { RetraitComponent } from "./retrait/retrait.component";
 import { TransferComponent } from "./transfer/transfer.component";
 import { UploadFileComponent } from "./upload-file/upload-file.component";
+import { DownloadFileComponent } from "./download-file/download-file.component";
 
 export const routes: Routes = [
   {
@@ -43,6 +44,10 @@ export const routes: Routes = [
     path: "uploadjustif",
     component: UploadFileComponent,
     canActivate: [ClientGuard]
+  },
+  {
+    path:"documents",
+    component: DownloadFileComponent
   },
   {
     path: "",

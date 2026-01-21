@@ -1,1 +1,43 @@
-<p>download-file works!</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>File name</th>
+            <th>Type</th>
+            <th>Uploaded at</th>
+            <th>Operation</th>
+            <th>Status</th>
+            <th>Preview</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let doc of documents">
+            <td>{{ doc.id }}</td>
+            <td>{{ doc.fileName }}</td>
+            <td>{{ doc.fileType }}</td>
+            <td>{{ doc.uploadedAt | date:'short' }}</td>
+            <td>{{ doc.operation.type }}</td>
+            <td>
+                <span [ngClass]="{
+            'pending': doc.operation.status === 'PENDING',
+            'validated': doc.operation.status === 'VALIDATED'
+          }">
+                    {{ doc.operation.status }}
+                </span>
+            </td>
+            <td>
+                <button (click)="preview(doc.operation.id)" title="Preview document"
+                    style="border:none; background:none; cursor:pointer;">
+                    👁️
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf="previewUrl" style="margin-top:20px">
+    <button (click)="closePreview()">❌</button>
+
+    <iframe [src]="previewUrl" width="100%" height="600px" style="border:1px solid #ccc">
+    </iframe>
+</div>

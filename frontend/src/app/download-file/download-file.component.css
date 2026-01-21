@@ -1,0 +1,9 @@
+.pending {
+  color: orange;
+  font-weight: bold;
+}
+
+.validated {
+  color: green;
+  font-weight: bold;
+}

@@ -44,11 +44,16 @@ public class DownloadOperationDocument {
 
         Resource resource = new UrlResource(filePath.toUri());
 
+        // return ResponseEntity.ok()
+        //         .contentType(MediaType.parseMediaType("application/pdf"))
+        //         .header(HttpHeaders.CONTENT_DISPOSITION,
+        //                 "attachment; filename=\"" + document.getFileName() + "\"")
+        //         .body(resource);
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/pdf"))
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                        "attachment; filename=\"" + document.getFileName() + "\"")
-                .body(resource);
+        .contentType(MediaType.APPLICATION_PDF)
+        .header(HttpHeaders.CONTENT_DISPOSITION,
+                "inline; filename=\"" + document.getFileName() + "\"")
+        .body(resource);
     }
     @GetMapping("/documents")
     public ResponseEntity<List<Document>> getAllDocuments(){
