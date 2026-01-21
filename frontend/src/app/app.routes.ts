@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
-import { RegisterComponent } from "./register.component";
-import { LoginComponent } from "./login.component";
-import { UserPageComponent } from "./userpage.component";
-import { DepositComponent } from "./deposit.component";
+import { RegisterComponent } from "./register/register.component";
+import { LoginComponent } from "./login/login.component";
+import { UserPageComponent } from "./userpage/userpage.component";
+import { DepositComponent } from "./deposite/deposit.component";
 import { ClientGuard } from "../../guards/ClientGuard";
 import { DashboardAdminComponent } from "./dashboard-admin/dashboard-admin.component";
 import { RetraitComponent } from "./retrait/retrait.component";

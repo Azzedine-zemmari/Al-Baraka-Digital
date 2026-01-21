@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Router, RouterModule } from "@angular/router";
-import { AuthService } from "../services/auth.service";
-import { UserPageService } from "../services/userpage.service";
-import {UserAuthenticatedResponse} from '../interfaces/UserAuthenticatedResponse';
+import { AuthService } from "../../services/auth.service";
+import { UserPageService } from "../../services/userpage.service";
+import {UserAuthenticatedResponse} from '../../interfaces/UserAuthenticatedResponse';
 
 @Component({
   selector: "app-userpage",
