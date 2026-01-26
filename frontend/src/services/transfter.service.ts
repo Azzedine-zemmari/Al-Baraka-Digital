@@ -9,14 +9,14 @@ export class Transfer{
   constructor(private http: HttpClient) { }
   
   transfer(transferData : TransferRequest) {
-    const token =
-      localStorage.getItem("auth_token") ||
-      sessionStorage.getItem("auth_token");
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
+    // const token =
+    //   localStorage.getItem("auth_token") ||
+    //   sessionStorage.getItem("auth_token");
+    // const headers = new HttpHeaders({
+    //   Authorization: `Bearer ${token}`,
+    // });
     return this.http.post(
-      `${environment.apiUrl}/api/v1/transfer/`, transferData, { headers }
+      `${environment.apiUrl}/api/v1/transfer/`, transferData
     );
     
   }

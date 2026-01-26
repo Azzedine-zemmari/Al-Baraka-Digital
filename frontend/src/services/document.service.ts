@@ -10,17 +10,16 @@ export class DocumentService {
   constructor(private http: HttpClient) {}
 
   getAllDocuments(): Observable<Document[]> {
-    const token =
-      localStorage.getItem('auth_token') ||
-      sessionStorage.getItem('auth_token');
+    // const token =
+    //   localStorage.getItem('auth_token') ||
+    //   sessionStorage.getItem('auth_token');
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
+    // const headers = new HttpHeaders({
+    //   Authorization: `Bearer ${token}`
+    // });
 
     return this.http.get<Document[]>(
-      `${environment.apiUrl}/api/documents`,
-      { headers }
+      `${environment.apiUrl}/api/documents`
     );
   }
 

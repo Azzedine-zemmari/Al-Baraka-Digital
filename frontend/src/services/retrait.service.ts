@@ -9,16 +9,15 @@ export class RetraitService {
   constructor(private http: HttpClient) {}
 
   retrait(retraitData: RetraitRequest): Observable<any> {
-    const token =
-      localStorage.getItem("auth_token") ||
-      sessionStorage.getItem("auth_token");
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
+    // const token =
+    //   localStorage.getItem("auth_token") ||
+    //   sessionStorage.getItem("auth_token");
+    // const headers = new HttpHeaders({
+    //   Authorization: `Bearer ${token}`,
+    // });
     return this.http.post(
       `${environment.apiUrl}/api/v1/retrait/`,
       retraitData,
-      { headers },
     );
   }
 }

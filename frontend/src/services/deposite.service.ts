@@ -10,12 +10,12 @@ export class DepositService{
     constructor(private http: HttpClient){}
 
     deposit(depositData: DepositeRequest) : Observable<any>{
-        const token = localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token");
-        const headers = new HttpHeaders({
-            Authorization: `Bearer ${token}`
-        });
-        console.log("headers " , headers);
-        console.log("depositData " , depositData);
-        return this.http.post(`${environment.apiUrl}/api/v1/deposite/`,depositData,{headers})
+        // const token = localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token");
+        // const headers = new HttpHeaders({
+        //     Authorization: `Bearer ${token}`
+        // });
+        // console.log("headers " , headers);
+        // console.log("depositData " , depositData);
+        return this.http.post(`${environment.apiUrl}/api/v1/deposite/`,depositData)
     }
 }
