@@ -232,6 +232,17 @@ Optionnel : **Docker Compose** pour lancer l’application + base de données
 
 ---
 
+--- 
+## screen shots
+![Register](assets/register.png)
+![Login](assets/login.png)
+![Retrait](assets/retrait.png)
+![Justify operation](assets/justify-operation.png)
+![UserPage](assets/userpage.png)
+![Deposit](assets/deposit.png)
+![Admin](assets/admin-dashboard.png)
+---
+
 ## 👨‍💻 Auteur
 **Azzedine Zemmari**  
 Développeur Java / Spring Boot / Sécurité
