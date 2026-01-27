@@ -26,7 +26,7 @@ export class LoginComponent{
                 next:(response : AuthResponse) =>{
                     this.authService.saveToken(response.token,this.rememberMe);
                     console.log("login success");
-                    this.router.navigate(['/userpage']);
+                    this.authService.redirectByRole();
                 },
                 error:(error)=>{
                     console.error("login failed : " , error);

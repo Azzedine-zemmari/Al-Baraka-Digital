@@ -4,12 +4,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthResponse } from '../interfaces/AuthResponse';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router:Router) {}
 
   getRole(): String | null{
     const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
@@ -54,6 +55,26 @@ export class AuthService {
       localStorage.setItem('auth_token',token);
     }else{
       sessionStorage.setItem('auth_token',token);
+    }
+  }
+  redirectByRole() {
+    const role = this.getRole();
+
+    switch (role) {
+      case 'ROLE_ADMIN':
+        this.router.navigate(['/dashbard-admin']);
+        break;
+
+      case 'ROLE_AGENT_BANCAIRE':
+        this.router.navigate(['/documents']);
+        break;
+
+      case 'ROLE_CLIENT':
+        this.router.navigate(['/userpage']);
+        break;
+
+      default:
+        this.router.navigate(['/login']);
     }
   }
 }
