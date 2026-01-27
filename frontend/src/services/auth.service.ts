@@ -23,6 +23,13 @@ export class AuthService {
     return this.getRole() === "ROLE_CLIENT";
   }
 
+  isAgent(): boolean{
+    return this.getRole() === "ROLE_AGENT_BANCAIRE";
+  }
+  isAdmin(): boolean{
+    return this.getRole() === "ROLE_ADMIN";
+  }
+
   isAuthenticated(): boolean {
   const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
   return !!token;

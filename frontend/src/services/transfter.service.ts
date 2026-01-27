@@ -16,7 +16,8 @@ export class Transfer{
     //   Authorization: `Bearer ${token}`,
     // });
     return this.http.post(
-      `${environment.apiUrl}/api/v1/transfer/`, transferData
+      `${environment.apiUrl}/api/v1/transfer/`, transferData,
+      {responseType : 'text'}
     );
     
   }

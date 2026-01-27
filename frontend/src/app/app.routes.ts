@@ -9,6 +9,8 @@ import { RetraitComponent } from "./retrait/retrait.component";
 import { TransferComponent } from "./transfer/transfer.component";
 import { UploadFileComponent } from "./upload-file/upload-file.component";
 import { DownloadFileComponent } from "./download-file/download-file.component";
+import { AgentGuard } from "../../guards/AgentGuard";
+import { AdminGuard } from "../../guards/AdminGuard";
 
 export const routes: Routes = [
   {
@@ -22,6 +24,7 @@ export const routes: Routes = [
   {
     path: "userpage",
     component: UserPageComponent,
+    canActivate:[ClientGuard]
   },
   {
     path: "deposit",
@@ -31,14 +34,17 @@ export const routes: Routes = [
   {
     path: "dashbard-admin",
     component: DashboardAdminComponent,
+    canActivate:[AdminGuard]
   },
   {
     path: "retrait",
     component: RetraitComponent,
+    canActivate:[ClientGuard]
   },
   {
     path: "transfer",
-    component: TransferComponent
+    component: TransferComponent,
+    canActivate:[ClientGuard]
   },
   {
     path: "uploadjustif",
@@ -47,7 +53,8 @@ export const routes: Routes = [
   },
   {
     path:"documents",
-    component: DownloadFileComponent
+    component: DownloadFileComponent,
+    canActivate:[AgentGuard]
   },
   {
     path: "",

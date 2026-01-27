@@ -16,6 +16,6 @@ export class DepositService{
         // });
         // console.log("headers " , headers);
         // console.log("depositData " , depositData);
-        return this.http.post(`${environment.apiUrl}/api/v1/deposite/`,depositData)
+        return this.http.post(`${environment.apiUrl}/api/v1/deposite/`,depositData,{responseType : 'text'});
     }
 }

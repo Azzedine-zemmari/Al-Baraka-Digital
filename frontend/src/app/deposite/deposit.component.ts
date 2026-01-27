@@ -10,7 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
     selector:'app-deposit',
     templateUrl:'./deposite.component.html',
     standalone:true,
-    imports:[CommonModule,FormsModule]
+    imports:[CommonModule,FormsModule,RouterModule]
 })
 
 export class DepositComponent{
@@ -20,16 +20,13 @@ export class DepositComponent{
 
     makeDeposit(){
         this.depositeService.deposit({amount:this.amount}).subscribe({
-            next: (res)=> alert("deposit successfully"),
+            next: (message : string)=> alert(message),
             error: (err: HttpErrorResponse) => {
             const errorMessage =
-              err.error?.message ||
-              err.error ||
-              err.message ||
-              'Deposit failed. Please try again.';
+            'Deposit failed. Please try again.';
 
             alert(errorMessage);
-          }
+        }
         });
     }
 }

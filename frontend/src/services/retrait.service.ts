@@ -18,6 +18,7 @@ export class RetraitService {
     return this.http.post(
       `${environment.apiUrl}/api/v1/retrait/`,
       retraitData,
+      {responseType : 'text'}
     );
   }
 }

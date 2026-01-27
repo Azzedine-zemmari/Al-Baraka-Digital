@@ -24,7 +24,7 @@ export class UserPageService{
     // });
 
     return this.http.get<UserAuthenticatedResponse>(
-      `${environment.apiUrl}/api/v1/auth/userInfo`    );
+      `${environment.apiUrl}/api/v1/auth/userInfo`);
   }
 
 }
